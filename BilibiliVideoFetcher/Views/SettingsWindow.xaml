@@ -1,0 +1,29 @@
+﻿<Window x:Name="WindowSettings" x:Class="BilibiliVideoFetcher.Views.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BilibiliVideoFetcher.Views"
+        mc:Ignorable="d"
+        Title="设置" Height="169.336" Width="300" ResizeMode="NoResize" WindowStyle="ToolWindow" Loaded="WindowSettings_Loaded" WindowStartupLocation="CenterScreen">
+    <Grid>
+
+        <GroupBox x:Name="groupBox" Header="默认选项" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="294" Height="145">
+            <StackPanel>
+                <CheckBox x:Name="checkBoxNoNoticeWhenDownload" Content="下载时不显示高级选项(画质, 格式等)" HorizontalAlignment="Left" Height="18" VerticalAlignment="Top" Width="223"/>
+                <DockPanel>
+                    <Label x:Name="label" Content="优先下载画质"/>
+                    <RadioButton x:Name="rbHigh" Content="最高画质" VerticalAlignment="Center" />
+                    <RadioButton x:Name="rbLow" Content="最低画质"  VerticalAlignment="Center"/>
+                </DockPanel>
+                <DockPanel>
+                    <Label x:Name="label2" Content="优先下载格式"/>
+                    <RadioButton x:Name="rbFlv" Content="flv格式" VerticalAlignment="Center" />
+                    <RadioButton x:Name="rbMp4" Content="mp4格式"  VerticalAlignment="Center"/>
+                </DockPanel>
+                <Button Name="buttonSave" Width="auto" Content="保存"  HorizontalAlignment="Right" Margin="0,0,5,5" Click="buttonSave_Click"/>
+            </StackPanel>
+        </GroupBox>
+
+    </Grid>
+</Window>

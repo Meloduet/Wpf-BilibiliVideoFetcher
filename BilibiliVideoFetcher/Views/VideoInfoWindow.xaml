@@ -1,0 +1,49 @@
+﻿<Window x:Name="WindowVideoInfo" x:Class="BilibiliVideoFetcher.Views.VideoInfoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BilibiliVideoFetcher.Views"
+        mc:Ignorable="d"
+        Title="VideoInfoWindow" Height="270" Width="355" Loaded="WindowVideoInfo_Loaded" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <StackPanel>
+            <DockPanel>
+                <Label Width="100">视频名称</Label>
+                <TextBox Name="tbVideoName" IsReadOnly="True" ></TextBox>
+            </DockPanel>
+
+            <DockPanel>
+                <Label Width="100">分集名称</Label>
+                <TextBox Name="tbPartname" IsReadOnly="True"></TextBox>
+            </DockPanel>
+
+            <DockPanel>
+                <Label Width="100">发布者</Label>
+                <TextBox Name="tbPublisher" IsReadOnly="True"></TextBox>
+            </DockPanel>
+
+           
+            <DockPanel>
+                <Label Width="100">下载地址</Label>
+                <TextBox Name="tbDownloadUrl" IsReadOnly="True"></TextBox>
+            </DockPanel>
+            <DockPanel>
+                <Label Width="100">下载地址(备份1)</Label>
+                <TextBox Name="tbDownloadUrlBak1"  IsReadOnly="True"></TextBox>
+            </DockPanel>
+            <DockPanel>
+                <Label Width="100">下载地址(备份2)</Label>
+                <TextBox Name="tbDownloadUrlBak2"  IsReadOnly="True"></TextBox>
+            </DockPanel>
+            <DockPanel>
+                <Label Width="100">弹幕下载地址</Label>
+                <TextBox Name="tbDanmuUrl"  IsReadOnly="True"></TextBox>
+            </DockPanel>
+            <DockPanel>
+                <Label Width="100">封面下载地址</Label>
+                <TextBox Name="tbCoverDownloadUrl" IsReadOnly="True"></TextBox>
+            </DockPanel>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,30 @@
+﻿<Window x:Class="BilibiliVideoFetcher.Views.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BilibiliVideoFetcher.Views"
+        mc:Ignorable="d"
+        Title="关于" Height="206.346" Width="373.822">
+    <Grid Margin="10">
+        <StackPanel>
+            <TextBlock FontSize="24" FontFamily="Nyala">BiliBili Video Fetcher</TextBlock>
+            <TextBlock TextWrapping="Wrap" Name="labelAppDesc" Text=" 一个用于方便获取Bilibili真实下载地址的桌面应用程序, 开放源代码于Github, 遵循Apache开源协议." />
+            <TextBlock Name="labelVersion" Text="版本: 2.0"/>
+
+
+            <Grid>
+                <TextBlock Name="labelAuthor" Text="作者: Meloduet Works->void" ></TextBlock>
+                <Button Padding="0,0,0,0" HorizontalAlignment="Right" Content="博客"  Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#DD0D2FC3" Height="18" Width="40" FontSize="12" ></Button>
+                <Button Padding="0,0,0,0" HorizontalAlignment="Right" Content="知乎" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#DD0D2FC3" Height="18" Width="40" Margin="0,0,45,0" FontSize="12"></Button>
+            </Grid>
+
+            <Grid>
+                <TextBlock Text="发布页面(获取更新, 提交建议): "></TextBlock>
+                <Button Padding="0,0,0,0" HorizontalAlignment="Right" Content="博客发布页" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#DD0D2FC3" Height="18" Width="40" Margin="0,0,45,0" FontSize="12"></Button>
+            </Grid>
+
+        </StackPanel>
+    </Grid>
+
+</Window>

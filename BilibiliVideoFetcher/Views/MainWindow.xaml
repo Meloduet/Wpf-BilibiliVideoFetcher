@@ -1,0 +1,53 @@
+﻿<Window x:Name="WindowMain" x:Class="BilibiliVideoFetcher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BilibiliVideoFetcher"
+        mc:Ignorable="d"
+        Title="MeloduetWorks - Bilibili视频下载解析工具" Height="415" Width="699" Loaded="WindowMain_Loaded" WindowStartupLocation="CenterScreen">
+    
+    <DockPanel>
+        
+        <Menu x:Name="menu"  VerticalAlignment="Top" DockPanel.Dock="Top">
+            <MenuItem Header="" Width="49">
+                <MenuItem.Background>
+                    <ImageBrush ImageSource="pack://application:,,,/BilibiliVideoFetcher;component/Resources/tv_80x80.png" />
+                </MenuItem.Background>
+            </MenuItem>
+            <MenuItem Header="创建">
+                <MenuItem Name="menuItemCreateSingleTask" Header="单个任务" HorizontalAlignment="Left" Width="116" Click="menuItemCreateSingleTask_Click"/>
+                <MenuItem Header="批量任务" HorizontalAlignment="Left" Width="116"/>
+            </MenuItem>
+            <MenuItem x:Name="menuItemSettings" Header="设置" Click="menuItemSettings_Click"/>
+
+        </Menu>
+        <Border Name="borderMessage" BorderBrush="#FFB0E2FF" BorderThickness="1" Padding="10,0" Visibility="Collapsed" DockPanel.Dock="Top">
+
+            <DockPanel>
+                <Label Name="labelMsgTitle" Content="Info" FontWeight="Bold" />
+                <Label Name="labelMsgContent" Content="Content" />
+                <Button Name="buttonCloseMessage" Width="16" Height="16" HorizontalAlignment="Right" Content="X" Background="{x:Null}" Foreground="#DD000000" BorderBrush="{x:Null}" Padding="0" FontSize="10" Click="buttonCloseMessage_Click"/>
+            </DockPanel>
+        </Border>
+
+        <DataGrid  IsReadOnly="True" AutoGenerateColumns="False" x:Name="dataGrid" HorizontalAlignment="Left" Height="337" VerticalAlignment="Top" Background="White" DockPanel.Dock="Top">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem x:Name="menuItemViewDetail" Header="查看详情" Click="menuItemViewDetail_Click" />
+                    <MenuItem x:Name="menuItemCopyDownloadUrl" Header="复制下载地址" Click="menuItemCopyDownloadUrl_Click" />
+                    <MenuItem x:Name="menuItemViewInBilibili" Header="在Bilibili中查看" Click="menuItemViewInBilibili_Click" />
+                    <Separator />
+                    <MenuItem x:Name="menuItemDelete" Header="删除" Click="menuItemDelete_Click" />
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Aid" Binding="{Binding Aid}"/>
+                <DataGridTextColumn Header="名称" Width="400" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="分集" Width="400" Binding="{Binding Partname}"/>                
+                <DataGridTextColumn Header="文件大小" Binding="{Binding Size}"/>
+            </DataGrid.Columns>
+            
+        </DataGrid>
+    </DockPanel>
+</Window>

@@ -1,0 +1,16 @@
+﻿<Window x:Class="BilibiliVideoFetcher.Views.CreateSingleTaskWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BilibiliVideoFetcher.Views"
+        mc:Ignorable="d"
+        Title="创建任务" Height="113" Width="487" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Label x:Name="labelUrl" Content="地址" HorizontalAlignment="Left" Height="27" Margin="10,10,0,0" VerticalAlignment="Top" Width="54"/>
+        <TextBox x:Name="textBoxUrl" HorizontalAlignment="Left" Height="28" Margin="64,9,0,0" TextWrapping="Wrap" Text="http://" VerticalAlignment="Top" Width="405"/>
+        <Button x:Name="buttonFetch" Content="开始" HorizontalAlignment="Left" Height="27" Margin="388,46,0,0" VerticalAlignment="Top" Width="81" Background="#FF61A4DC" BorderBrush="#FF61A4DC" Click="buttonFetch_Click"/>
+        <TextBox Text="" x:Name="textBoxStatus" IsReadOnly="True" HorizontalAlignment="Left" Height="26" Margin="10,47,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="373" BorderThickness="0" SelectionBrush="White"/>
+
+    </Grid>
+</Window>

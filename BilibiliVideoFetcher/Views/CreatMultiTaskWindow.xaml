@@ -1,0 +1,25 @@
+﻿<Window x:Class="BilibiliVideoFetcher.Views.CreatMultiTaskWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BilibiliVideoFetcher.Views"
+        mc:Ignorable="d"
+        Title="创建多集下载任务" Height="123" Width="471">
+    <Grid>
+        <StackPanel>
+            <DockPanel>
+                <Label Content="地址: " />
+                <TextBox Name="tbUrl" Text="http://"></TextBox>                                
+            </DockPanel>
+            <DockPanel>
+                <Label Content="分集范围: 从"></Label>
+                <TextBox Name="tbPartStart" Width="50" HorizontalAlignment="Left"></TextBox>
+                <Label Content="集, 到"></Label>
+                <TextBox Name="tbPartEnd" Width="50" HorizontalAlignment="Left"></TextBox>
+                <Label Content="集 (留空则全部下载)"></Label>
+            </DockPanel>
+            <Button Name="buttonStart" Content="开始" HorizontalAlignment="Right" Margin="0,0,10,0" Height="28" Click="buttonStart_Click" />
+        </StackPanel>
+    </Grid>
+</Window>
