@@ -95,5 +95,15 @@ namespace BilibiliVideoFetcher
             var task = GetSelectedTask(dataGrid);
             System.Diagnostics.Process.Start("http://www.bilibili.com/video/av" + task.Aid + "/index_" + task.Page + ".html");
         }
+
+        private void menuItemAbout_Click(object sender, RoutedEventArgs e)
+        {
+            new Views.AboutWindow().ShowDialog();
+        }
+
+        private void menuItemCreateMultiTask_Click(object sender, RoutedEventArgs e)
+        {
+            new Views.CreatMultiTaskWindow().Show();
+        }
     }
 }

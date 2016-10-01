@@ -23,5 +23,23 @@ namespace BilibiliVideoFetcher.Views
         {
             InitializeComponent();
         }
+        private void StartPage(string url)
+        {
+            System.Diagnostics.Process.Start(url);
+        }
+        private void buttonBlog_Click(object sender, RoutedEventArgs e)
+        {
+            StartPage("https://v.meloduet.com/");
+        }
+
+        private void buttonZhihu_Click(object sender, RoutedEventArgs e)
+        {
+            StartPage("https://www.zhihu.com/people/spotband");
+        }
+
+        private void buttonPublishPage_Click(object sender, RoutedEventArgs e)
+        {
+            StartPage("https://v.meloduet.com/programming/bilibili-video-fetcher.html");
+        }
     }
 }

@@ -87,7 +87,17 @@ namespace BilibiliVideoFetcher.Process
             var normalMatch = regexNormalPattern.Match(text);
             if(normalMatch.Success)
             {
+                int aid = -1;
+                var fragments = normalMatch.Value.Substring(32).Split('/');
+                if (!int.TryParse(fragments[0], out aid))
+                {
+                    Data.NotificationData.GetInstance().Add
+                        (new Classes.NotifictionMessage(Classes.NotificationLevel.Error, "错误的aid!"));
+                    return;
+                }
+                Data.NotificationData.GetInstance().Add(new Classes.NotifictionMessage(Classes.NotificationLevel.Info, "多集任务aid" + aid + "已开始解析! 请稍等."));
 
+                Process.TaskBuilder.Build(aid, partStart, partEnd);
             }else
             {
                 Data.NotificationData.GetInstance().Add

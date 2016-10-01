@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BilibiliVideoFetcher.Views"
         mc:Ignorable="d"
-        Title="关于" Height="206.346" Width="373.822">
+        Title="关于" Height="160.346" Width="373.822" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid Margin="10">
         <StackPanel>
             <TextBlock FontSize="24" FontFamily="Nyala">BiliBili Video Fetcher</TextBlock>
@@ -15,13 +15,13 @@
 
             <Grid>
                 <TextBlock Name="labelAuthor" Text="作者: Meloduet Works->void" ></TextBlock>
-                <Button Padding="0,0,0,0" HorizontalAlignment="Right" Content="博客"  Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#DD0D2FC3" Height="18" Width="40" FontSize="12" ></Button>
-                <Button Padding="0,0,0,0" HorizontalAlignment="Right" Content="知乎" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#DD0D2FC3" Height="18" Width="40" Margin="0,0,45,0" FontSize="12"></Button>
+                <Button Name="buttonBlog" Padding="0,0,0,0" HorizontalAlignment="Right" Content="博客"  Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#DD0D2FC3" Height="18" Width="40" FontSize="12" Click="buttonBlog_Click" ></Button>
+                <Button Name="buttonZhihu" Padding="0,0,0,0" HorizontalAlignment="Right" Content="知乎" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#DD0D2FC3" Height="18" Width="40" Margin="0,0,45,0" FontSize="12" Click="buttonZhihu_Click"></Button>
             </Grid>
 
             <Grid>
                 <TextBlock Text="发布页面(获取更新, 提交建议): "></TextBlock>
-                <Button Padding="0,0,0,0" HorizontalAlignment="Right" Content="博客发布页" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#DD0D2FC3" Height="18" Width="40" Margin="0,0,45,0" FontSize="12"></Button>
+                <Button Name="buttonPublishPage" Padding="0,0,0,0" HorizontalAlignment="Right" Content="博客发布页" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#DD0D2FC3" Height="18" Width="75" Margin="0,0,10,0" FontSize="12" Click="buttonPublishPage_Click"></Button>
             </Grid>
 
         </StackPanel>

@@ -10,14 +10,14 @@
     <DockPanel>
         
         <Menu x:Name="menu"  VerticalAlignment="Top" DockPanel.Dock="Top">
-            <MenuItem Header="" Width="49">
+            <MenuItem Name="menuItemAbout" Header="" Width="49" Click="menuItemAbout_Click">
                 <MenuItem.Background>
                     <ImageBrush ImageSource="pack://application:,,,/BilibiliVideoFetcher;component/Resources/tv_80x80.png" />
                 </MenuItem.Background>
             </MenuItem>
             <MenuItem Header="创建">
                 <MenuItem Name="menuItemCreateSingleTask" Header="单个任务" HorizontalAlignment="Left" Width="116" Click="menuItemCreateSingleTask_Click"/>
-                <MenuItem Header="批量任务" HorizontalAlignment="Left" Width="116"/>
+                <MenuItem Name="menuItemCreateMultiTask" Header="批量任务" HorizontalAlignment="Left" Width="116" Click="menuItemCreateMultiTask_Click"/>
             </MenuItem>
             <MenuItem x:Name="menuItemSettings" Header="设置" Click="menuItemSettings_Click"/>
 
@@ -31,7 +31,7 @@
             </DockPanel>
         </Border>
 
-        <DataGrid  IsReadOnly="True" AutoGenerateColumns="False" x:Name="dataGrid" HorizontalAlignment="Left" Height="337" VerticalAlignment="Top" Background="White" DockPanel.Dock="Top">
+        <DataGrid  IsReadOnly="True" AutoGenerateColumns="False" x:Name="dataGrid" HorizontalAlignment="Left" VerticalAlignment="Top" Background="White" DockPanel.Dock="Top">
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem x:Name="menuItemViewDetail" Header="查看详情" Click="menuItemViewDetail_Click" />

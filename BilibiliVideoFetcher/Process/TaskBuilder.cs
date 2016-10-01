@@ -13,7 +13,7 @@ namespace BilibiliVideoFetcher.Process
     {
         public static void Build(int aid)
         {
-            string json = Helper.NetworkHelper.GetTextFromUri("http://api.bilibili.com/view?type=json&appkey=8e9fc618fbd41e28&id=" + aid + "&page=" + page);
+            string json = Helper.NetworkHelper.GetTextFromUri("http://api.bilibili.com/view?type=json&appkey=8e9fc618fbd41e28&id=" + aid + "&page=" + 1);
             if (json.Length > 100)
             {
                 var videoInfo = JsonConvert.DeserializeObject<jsonVideoInfo>(json);                
@@ -30,7 +30,7 @@ namespace BilibiliVideoFetcher.Process
         }
         public static void Build(int aid, int start, int end)
         {
-            string json = Helper.NetworkHelper.GetTextFromUri("http://api.bilibili.com/view?type=json&appkey=8e9fc618fbd41e28&id=" + aid + "&page=" + page);
+            string json = Helper.NetworkHelper.GetTextFromUri("http://api.bilibili.com/view?type=json&appkey=8e9fc618fbd41e28&id=" + aid + "&page=" + 1);
             if (json.Length > 100)
             {
                 var videoInfo = JsonConvert.DeserializeObject<jsonVideoInfo>(json);

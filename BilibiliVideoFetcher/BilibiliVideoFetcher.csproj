@@ -67,12 +67,19 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Helper\FileHelper.cs" />
+    <Compile Include="Views\AboutWindow.xaml.cs">
+      <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CreatMultiTaskWindow.xaml.cs">
       <DependentUpon>CreatMultiTaskWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\AboutWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CreatMultiTaskWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

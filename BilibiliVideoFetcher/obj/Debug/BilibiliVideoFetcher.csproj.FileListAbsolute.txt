@@ -25,3 +25,6 @@ L:\Projects\VS\cs\BilibiliVideoFetcher\BilibiliVideoFetcher\obj\Debug\Views\Sett
 L:\Projects\VS\cs\BilibiliVideoFetcher\BilibiliVideoFetcher\obj\Debug\Views\VideoInfoWindow.g.cs
 L:\Projects\VS\cs\BilibiliVideoFetcher\BilibiliVideoFetcher\obj\Debug\Views\VideoInfoWindow.baml
 L:\Projects\VS\cs\BilibiliVideoFetcher\BilibiliVideoFetcher\obj\Debug\Views\CreatMultiTaskWindow.g.cs
+L:\Projects\VS\cs\BilibiliVideoFetcher\BilibiliVideoFetcher\obj\Debug\Views\AboutWindow.g.cs
+L:\Projects\VS\cs\BilibiliVideoFetcher\BilibiliVideoFetcher\obj\Debug\Views\CreatMultiTaskWindow.baml
+L:\Projects\VS\cs\BilibiliVideoFetcher\BilibiliVideoFetcher\obj\Debug\Views\AboutWindow.baml
