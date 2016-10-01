@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BilibiliVideoFetcher.Views"
         mc:Ignorable="d"
+         Icon="pack://application:,,,/BilibiliVideoFetcher;component/Resources/tv_80x80.png"
         Title="创建多集下载任务" Height="123" Width="471">
     <Grid>
         <StackPanel>

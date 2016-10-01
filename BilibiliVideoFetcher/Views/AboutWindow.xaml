@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BilibiliVideoFetcher.Views"
         mc:Ignorable="d"
+         Icon="pack://application:,,,/BilibiliVideoFetcher;component/Resources/tv_80x80.png"
         Title="关于" Height="160.346" Width="373.822" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid Margin="10">
         <StackPanel>

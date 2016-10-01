@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BilibiliVideoFetcher.Views"
         mc:Ignorable="d"
+         Icon="pack://application:,,,/BilibiliVideoFetcher;component/Resources/tv_80x80.png"
         Title="VideoInfoWindow" Height="270" Width="355" Loaded="WindowVideoInfo_Loaded" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <StackPanel>

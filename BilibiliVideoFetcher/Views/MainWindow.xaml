@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BilibiliVideoFetcher"
         mc:Ignorable="d"
+        Icon="pack://application:,,,/BilibiliVideoFetcher;component/Resources/tv_80x80.png"
         Title="MeloduetWorks - Bilibili视频下载解析工具" Height="415" Width="699" Loaded="WindowMain_Loaded" WindowStartupLocation="CenterScreen">
     
     <DockPanel>
