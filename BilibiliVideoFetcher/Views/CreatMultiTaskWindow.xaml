@@ -6,21 +6,29 @@
         xmlns:local="clr-namespace:BilibiliVideoFetcher.Views"
         mc:Ignorable="d"
          Icon="pack://application:,,,/BilibiliVideoFetcher;component/Resources/tv_80x80.png"
-        Title="创建多集下载任务" Height="123" Width="471">
+        Title="创建多集下载任务" Height="148" Width="486">
     <Grid>
-        <StackPanel>
-            <DockPanel>
-                <Label Content="地址: " />
-                <TextBox Name="tbUrl" Text="http://" MouseDoubleClick="tbUrl_MouseDoubleClick"></TextBox>                                
-            </DockPanel>
-            <DockPanel>
+        <Grid>
+            <Grid Margin="0,0,0,66">
+                <Label Content="地址: " Margin="0,0,0,22" />
+                <TextBox Name="tbUrl" Text="http://" MouseDoubleClick="tbUrl_MouseDoubleClick" Margin="60,0,0,22"></TextBox>
+            </Grid>
+            <Grid Margin="0,32,0,33">
                 <Label Content="分集范围: 从"></Label>
-                <TextBox Name="tbPartStart" Width="50" HorizontalAlignment="Left"></TextBox>
-                <Label Content="集, 到"></Label>
-                <TextBox Name="tbPartEnd" Width="50" HorizontalAlignment="Left"></TextBox>
-                <Label Content="集 (留空则全部下载)"></Label>
-            </DockPanel>
-            <Button Name="buttonStart" Content="开始" HorizontalAlignment="Right" Margin="0,0,10,0" Height="28" Click="buttonStart_Click" />
-        </StackPanel>
+                <TextBox Name="tbPartStart" Width="50" HorizontalAlignment="Left" Margin="76,0,0,32"></TextBox>
+                <Label Content="集, 到" Margin="131,0,249,24"></Label>
+                <TextBox Name="tbPartEnd" Width="52" HorizontalAlignment="Left" Margin="187,0,0,29"></TextBox>
+                <Label Content="集 (留空则全部下载)" Margin="282,0,75,29"></Label>
+            </Grid>
+            <CheckBox x:Name="cbUseAid" Content="直接使用Aid(av号):" HorizontalAlignment="Left" Height="27" Margin="10,66,0,25" Width="123" Checked="cbUseAid_Checked" Unchecked="cbUseAid_Unchecked"/>
+            <Grid Name="gridCustomAid" Visibility="Collapsed">
+                <TextBox x:Name="textBoxAid" HorizontalAlignment="Left" Height="27" Margin="138,63,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="91"/>
+                
+            </Grid>
+
+
+
+            <Button Name="buttonStart" Content="开始" HorizontalAlignment="Right" Margin="0,80,10,10" Height="28" Click="buttonStart_Click" />
+        </Grid>
     </Grid>
 </Window>

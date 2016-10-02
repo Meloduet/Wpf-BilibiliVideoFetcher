@@ -25,21 +25,43 @@ namespace BilibiliVideoFetcher.Views
         }
 
         private void buttonStart_Click(object sender, RoutedEventArgs e)
-        {            
-            new Action(delegate {
-                if (tbPartStart.Text.Trim() == string.Empty && tbPartEnd.Text.Trim() == string.Empty)
-                {
-                    Process.FetchingCore.NewMultiTask(tbUrl.Text);
-                    return;
-                }
-                Process.FetchingCore.NewMultiTask(tbUrl.Text,tbPartStart.Text, tbPartEnd.Text);
-            })();
+        {
+            var aid = textBoxAid.Text.Trim();
+            if (aid != string.Empty)
+            {
+                new Action(delegate {
+                    Process.FetchingCore.NewMultiTask("http://www.bilibili.com/video/av" + aid);
+                })();
+
+
+            }else
+            {
+                new Action(delegate {
+                    if (tbPartStart.Text.Trim() == string.Empty && tbPartEnd.Text.Trim() == string.Empty)
+                    {
+                        Process.FetchingCore.NewMultiTask(tbUrl.Text);
+                        return;
+                    }
+                    Process.FetchingCore.NewMultiTask(tbUrl.Text, tbPartStart.Text, tbPartEnd.Text);
+                })();
+            }
+            
             Close();
         }
 
         private void tbUrl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             tbUrl.SelectAll();
+        }
+
+        private void cbUseAid_Checked(object sender, RoutedEventArgs e)
+        {
+            gridCustomAid.Visibility = Visibility.Visible;
+        }
+
+        private void cbUseAid_Unchecked(object sender, RoutedEventArgs e)
+        {
+            gridCustomAid.Visibility = Visibility.Collapsed;
         }
     }
 }

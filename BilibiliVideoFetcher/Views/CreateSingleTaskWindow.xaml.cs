@@ -27,9 +27,22 @@ namespace BilibiliVideoFetcher.Views
         }
         private void buttonFetch_Click(object sender, RoutedEventArgs e)
         {
-            new Action(delegate {
+            var aid = textBoxAid.Text.Trim();
+            var page = textBoxPart.Text.Trim();
+            if (aid != string.Empty)
+            {
+                new Action(delegate {
+                    Process.FetchingCore.NewTask("http://www.bilibili.com/video/av"+aid+"/index_"+ page + ".html");
+                })();
+               
+
+            }else
+            {
+                new Action(delegate {
                 Process.FetchingCore.NewTask(textBoxUrl.Text);                
             })();
+            
+            }
             this.Close();
 
         }
@@ -37,6 +50,16 @@ namespace BilibiliVideoFetcher.Views
         private void textBoxUrl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             textBoxUrl.SelectAll();
+        }
+
+        private void cbUseAid_Checked(object sender, RoutedEventArgs e)
+        {
+            gridCustomAid.Visibility = Visibility.Visible;
+        }
+
+        private void cbUseAid_Unchecked(object sender, RoutedEventArgs e)
+        {
+            gridCustomAid.Visibility = Visibility.Collapsed;
         }
     }
 }
