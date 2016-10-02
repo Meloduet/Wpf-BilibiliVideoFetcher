@@ -1,6 +1,7 @@
 ﻿using BilibiliVideoFetcher.Classes;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -54,6 +55,19 @@ namespace BilibiliVideoFetcher.Views
                     tbDownloadUrlBak2.Text = task.DownloadUrl[2];
                 }
             }
+            new Task(new Action(delegate
+            {
+                var bytes = Helper.NetworkHelper.GetBytesFromUri(task.VideoInfo.pic);
+                Action updateImage = () => {                    
+                        BitmapImage bi = new BitmapImage();
+                        bi.BeginInit();
+                        bi.StreamSource = new MemoryStream(bytes);
+                        bi.EndInit();
+                        picCover.Source = bi;                    
+
+                };
+                Dispatcher.BeginInvoke(updateImage);
+            })).Start();
         }
     }
 }

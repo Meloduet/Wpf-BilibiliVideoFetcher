@@ -39,11 +39,13 @@ namespace BilibiliVideoFetcher
             Data.NotificationData.Initialize(this.borderMessage, this.labelMsgTitle, this.labelMsgContent);
             dataGrid.ItemsSource = Data.FetchingTasks.GetInstance().Tasks;
             //Data.FetchingTasks.GetInstance().Tasks.Add(new Classes.VideoTask() {Aid="666",VideoInfo=new Classes.JsonModel.jsonVideoInfo() { allow_bp=1} });
+            Data.NotificationData.GetInstance().Add(
+                new NotifictionMessage(NotificationLevel.Debug,"Hello"));
         }
 
         private void buttonCloseMessage_Click(object sender, RoutedEventArgs e)
         {
-            Data.NotificationData.GetInstance().ShowNext();
+            Data.NotificationData.GetInstance().RemoveLast();
         }
 
         private void menuItemSettings_Click(object sender, RoutedEventArgs e)
@@ -74,7 +76,7 @@ namespace BilibiliVideoFetcher
             if(task.DownloadUrl==null|| task.DownloadUrl.Count==0)
             {
                 Data.NotificationData.GetInstance().Add(
-                    new Classes.NotifictionMessage(Classes.NotificationLevel.Warning, "下载地址尚未获取到, 请等待或删除本任务."));
+                    new NotifictionMessage(NotificationLevel.Warning, "下载地址尚未获取到, 请等待或删除本任务."));
             }
             else
             {
@@ -86,7 +88,6 @@ namespace BilibiliVideoFetcher
         {
             var index = dg.SelectedIndex;
             DataGridRow row = dg.ItemContainerGenerator.ContainerFromIndex(index) as DataGridRow;
-            //here we get the actual data item behind the selected row
             return dg.ItemContainerGenerator.ItemFromContainer(row) as VideoTask;
         }
         private void menuItemViewInBilibili_Click(object sender, RoutedEventArgs e)

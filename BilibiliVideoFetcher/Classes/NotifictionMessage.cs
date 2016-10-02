@@ -13,9 +13,9 @@ namespace BilibiliVideoFetcher.Classes
         Warning = 2,
         Error = 3
     }
-    public struct NotifictionMessage
+    public class NotifictionMessage
     {
-        public NotificationLevel Level { get;}
+        public NotificationLevel Level { get; private set; }
         public string LevelToString()
         {
             switch(Level)
@@ -31,11 +31,34 @@ namespace BilibiliVideoFetcher.Classes
             }
             return string.Empty;
         }
-        public string Message { get; }
+        public string Message { get; private set; }
+        public TimeSpan TimeRemain { get; set; }
+        public DateTime CreateTime { get; private set; }
         public NotifictionMessage(NotificationLevel level, string message)
         {
             Level = level;
             Message = message;
+            TimeRemain = new TimeSpan(0,0,0,0,3000);
+            CreateTime = DateTime.Now;
+        }
+        public NotifictionMessage(NotificationLevel level, string message, TimeSpan span)
+        {
+            Level = level;
+            Message = message;
+            TimeRemain = span;
+            CreateTime = DateTime.Now;
+        }
+        private NotifictionMessage() { }
+        public NotifictionMessage Clone()
+        {
+            return new NotifictionMessage()
+            {
+                Level = this.Level,
+                Message = this.Message,
+                TimeRemain = this.TimeRemain,
+                CreateTime = this.CreateTime,
+
+            };
         }
     }
 }

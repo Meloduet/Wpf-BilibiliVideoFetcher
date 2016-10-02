@@ -34,5 +34,30 @@ namespace BilibiliVideoFetcher.Helper
 
             }
         }
+        public static byte[] GetBytesFromUri(string uri)
+        {
+            using (WebClient client = new WebClient())
+            {
+                try
+                {
+                    var s = client.DownloadData(uri);
+                    return s;
+                }
+                //通常是404
+                catch (System.Net.WebException e)
+                {
+                    //Logger.Log("Exception at GetXmlFromUri(" + uri + "), msg: " + e.Message);
+                    throw;
+
+                }
+                //通常是超时
+                catch (System.Net.Sockets.SocketException e)
+                {
+                    //Logger.Log("Exception at GetXmlFromUri(" + uri + "), msg: " + e.Message);
+                    throw;
+                }
+
+            }
+        }
     }
 }

@@ -8,7 +8,7 @@
         Icon="pack://application:,,,/BilibiliVideoFetcher;component/Resources/tv_80x80.png"
         Title="MeloduetWorks - Bilibili视频下载解析工具" Height="415" Width="699" Loaded="WindowMain_Loaded" WindowStartupLocation="CenterScreen">
     
-    <DockPanel>
+    <DockPanel LastChildFill="True">
         
         <Menu x:Name="menu"  VerticalAlignment="Top" DockPanel.Dock="Top">
             <MenuItem Name="menuItemAbout" Header="" Width="49" Click="menuItemAbout_Click">
@@ -32,7 +32,7 @@
             </DockPanel>
         </Border>
 
-        <DataGrid  IsReadOnly="True" AutoGenerateColumns="False" x:Name="dataGrid" HorizontalAlignment="Left" VerticalAlignment="Top" Background="White" DockPanel.Dock="Top">
+        <DataGrid IsReadOnly="True" AutoGenerateColumns="False" x:Name="dataGrid"  >
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem x:Name="menuItemViewDetail" Header="查看详情" Click="menuItemViewDetail_Click" />

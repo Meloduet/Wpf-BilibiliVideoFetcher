@@ -5,9 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
+using System.Threading;
+using BilibiliVideoFetcher.Classes;
 
 namespace BilibiliVideoFetcher.Data
 {
+    //消息数据类
     class NotificationData
     {
         private static NotificationData _notifications = null;
@@ -22,66 +25,53 @@ namespace BilibiliVideoFetcher.Data
                 _notifications._containerControl = containerControl;
                 _notifications._titleLabel = titleLabel;
                 _notifications._messageLabel = messageLabel;
-                _notifications._messages = new List<Classes.NotifictionMessage>();
-            }            
+                _notifications._messages = new List<NotifictionMessage>();
+            }
         }
         private NotificationData() { }
+        
         public static NotificationData GetInstance()
-        {            
+        {
             return _notifications;
         }
-        
-        private List<Classes.NotifictionMessage> _messages;
 
-        public int Add(Classes.NotifictionMessage message)
+        private List<NotifictionMessage> _messages;
+
+        public void Add(NotifictionMessage message)
         {
-            _messages.Add(message);
-
-            //current = -1, count = 1
-            if (_containerControl.Visibility == System.Windows.Visibility.Collapsed)
-            {
-                ShowNext();
-            } else
-            {
-                Data.ApplicationSettings.GetInstance().Dispatcher.Invoke(delegate () {
-                    _titleLabel.Content = _messages[0].LevelToString() + "(总共:" + _messages.Count + ")";
-                });
-                   
-            }
-            return _messages.Count - 1;
+                _messages.Add(message);
+                ShowLast();
         }
-
-        public void ShowNext()
-        {
-            
-            if (_messages.Count>1)
-            {
-                _messages.RemoveAt(0);
-                Data.ApplicationSettings.GetInstance().Dispatcher.Invoke(delegate () {
-                    _containerControl.Visibility = System.Windows.Visibility.Visible;
-                    _titleLabel.Content = _messages[0].LevelToString() + "(总共:" + _messages.Count + ")";
-                    _messageLabel.Content = _messages[0].Message;
-                });
-                
-            }else if(_messages.Count==1)
-            {
-                Data.ApplicationSettings.GetInstance().Dispatcher.Invoke(delegate () {
-                    _containerControl.Visibility = System.Windows.Visibility.Visible;
-                    _titleLabel.Content = _messages[0].LevelToString();
-                    _messageLabel.Content = _messages[0].Message;
-                });
-               
-                _messages.RemoveAt(0);
-            }
-            else
-            {
-                Data.ApplicationSettings.GetInstance().Dispatcher.Invoke(delegate () {
+        private NotifictionMessage pre;
+        public void ShowLast()
+        {            
+            var index = _messages.Count - 1;
+            if(index<0)
+                Data.ApplicationSettings.GetInstance().Dispatcher.Invoke(delegate ()
+                {
                     _containerControl.Visibility = System.Windows.Visibility.Collapsed;
                 });
+            else
+            {
+                var lastMsg = _messages[_messages.Count - 1];
+                Data.ApplicationSettings.GetInstance().Dispatcher.Invoke(delegate ()
+                {
+                    _containerControl.Visibility = System.Windows.Visibility.Visible;
+                    _titleLabel.Content = lastMsg.LevelToString() + (_messages.Count>1? "(总共:" + _messages.Count + ")":string.Empty);
+                    _messageLabel.Content = lastMsg.Message;                 
+                });
                 
-                _messages.Clear();
             }
+            
+
+
         }
 
+        internal void RemoveLast()
+        {
+            var lastMsg = _messages[_messages.Count - 1];
+            _messages.Remove(lastMsg);
+            ShowLast();
+        }
     }
 }

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:BilibiliVideoFetcher.Views"
         mc:Ignorable="d"
          Icon="pack://application:,,,/BilibiliVideoFetcher;component/Resources/tv_80x80.png"
-        Title="VideoInfoWindow" Height="270" Width="355" Loaded="WindowVideoInfo_Loaded" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="VideoInfoWindow" Height="393" Width="355" Loaded="WindowVideoInfo_Loaded" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <StackPanel>
             <DockPanel>
@@ -24,7 +24,10 @@
                 <TextBox Name="tbPublisher" IsReadOnly="True"></TextBox>
             </DockPanel>
 
-           
+            <DockPanel>
+                <Label Width="100">封面预览</Label>
+                <Image x:Name="picCover" Height="95" Margin="0,0,0,0" Width="248"/>
+            </DockPanel>
             <DockPanel>
                 <Label Width="100">下载地址</Label>
                 <TextBox Name="tbDownloadUrl" IsReadOnly="True"></TextBox>
@@ -45,6 +48,7 @@
                 <Label Width="100">封面下载地址</Label>
                 <TextBox Name="tbCoverDownloadUrl" IsReadOnly="True"></TextBox>
             </DockPanel>
+            
         </StackPanel>
     </Grid>
 </Window>

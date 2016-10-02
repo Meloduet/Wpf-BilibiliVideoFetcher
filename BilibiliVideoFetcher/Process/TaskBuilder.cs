@@ -104,6 +104,8 @@ namespace BilibiliVideoFetcher.Process
                 newTask.DownloadUrl.Add(jvd.durl[0].url);
                 newTask.DownloadUrl.AddRange(jvd.durl[0].backup_url);
                 newTask.Name = newTask.Name.Substring(9);
+                Data.NotificationData.GetInstance().Add(new NotifictionMessage(
+                       NotificationLevel.Error, "成功获取cid:" + videoInfo.cid + "的下载地址, 请复制下载地址到其它软件下载"));
                 return;
                     }
             else
