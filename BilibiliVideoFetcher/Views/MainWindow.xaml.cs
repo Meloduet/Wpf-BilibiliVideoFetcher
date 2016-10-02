@@ -39,8 +39,8 @@ namespace BilibiliVideoFetcher
             Data.NotificationData.Initialize(this.borderMessage, this.labelMsgTitle, this.labelMsgContent);
             dataGrid.ItemsSource = Data.FetchingTasks.GetInstance().Tasks;
             //Data.FetchingTasks.GetInstance().Tasks.Add(new Classes.VideoTask() {Aid="666",VideoInfo=new Classes.JsonModel.jsonVideoInfo() { allow_bp=1} });
-            Data.NotificationData.GetInstance().Add(
-                new NotifictionMessage(NotificationLevel.Debug,"Hello"));
+            //Data.NotificationData.GetInstance().Add(
+              //  new NotifictionMessage(NotificationLevel.Debug,"Hello"));
         }
 
         private void buttonCloseMessage_Click(object sender, RoutedEventArgs e)

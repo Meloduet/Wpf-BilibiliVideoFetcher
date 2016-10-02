@@ -13,15 +13,15 @@ namespace BilibiliVideoFetcher.Process
     {
         private const string DOWNLOAD_API = "http://bilibili-service.daoapp.io/video/";
         private const string VIDEO_INFO_API = "http://api.bilibili.com/view?type=json&appkey=8e9fc618fbd41e28&id=";
-        public static void Build(int aid)
+        public static void Build(string aid)
         {
             var json = Helper.NetworkHelper.GetTextFromUri(VIDEO_INFO_API + aid + "&page=" + 1);
             if (json.Length > 100)
             {
                 var videoInfo = JsonConvert.DeserializeObject<jsonVideoInfo>(json);                
-                for (int i = 1; i <= videoInfo.pages; i++)
+                for (int i = 1; i <=  videoInfo.pages; i++)
                 {
-                    Build(aid, i);
+                    Build(aid, i.ToString());
                 }
             }
             else {
@@ -31,7 +31,7 @@ namespace BilibiliVideoFetcher.Process
                 return;
             }
         }
-        public static void Build(int aid, int start, int end)
+        public static void Build(string aid, int start, int end)
         {
             string json = Helper.NetworkHelper.GetTextFromUri(VIDEO_INFO_API + aid + "&page=" + 1);
             if (json.Length > 100)
@@ -45,7 +45,7 @@ namespace BilibiliVideoFetcher.Process
                 }
                 for (int i = start; i <= end; i++)
                 {
-                    Build(aid, i);
+                    Build(aid, i.ToString());
                 }
             }
             else
@@ -55,7 +55,7 @@ namespace BilibiliVideoFetcher.Process
                 return;
             }
         }
-        public static void Build(int aid, int page)
+        public static void Build(string aid, string page)
         {
             var json = Helper.NetworkHelper.GetTextFromUri(VIDEO_INFO_API + aid + "&page=" + page);
             if (json.Length > 100)
@@ -76,7 +76,7 @@ namespace BilibiliVideoFetcher.Process
                     Data.FetchingTasks.GetInstance().Tasks.Add(newTask);
                 });
                 var downJson = Helper.NetworkHelper.GetTextFromUri(
-                    DOWNLOAD_API + newTask.VideoInfo.cid + "?quality=1&type=" +
+                    DOWNLOAD_API + newTask.Aid + "?quality=1&type=" +
                     Data.ApplicationSettings.GetInstance().FetchingOption.Format);
                 if (downJson.Length < 100)
                 {
@@ -89,7 +89,7 @@ namespace BilibiliVideoFetcher.Process
                 {
                     var quality = jvd.accept_quality.OrderByDescending(t => t).First();
                     downJson = Helper.NetworkHelper.GetTextFromUri(
-                        DOWNLOAD_API + newTask.VideoInfo.cid + "?quality=" + quality);
+                        DOWNLOAD_API + newTask.Aid + "?quality=" + quality);
                     jvd = JsonConvert.DeserializeObject<jsonVideoDownload>(downJson);
                 }
                 if (jvd.durl.Count == 0)

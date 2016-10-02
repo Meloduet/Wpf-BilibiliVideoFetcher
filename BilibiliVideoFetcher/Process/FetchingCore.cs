@@ -13,6 +13,21 @@ namespace BilibiliVideoFetcher.Process
     public class FetchingCore
     {
         
+        private static string GetAidFromSourceHtml(string html)
+        {
+            var aidPattern = new Regex(@"show\(\d+, \d+\);");
+            var match = aidPattern.Match(html);
+            if (match.Success)
+            {
+                var fragments = match.Value.Split(',');
+                return fragments[0].Substring(5);
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+
         public static void NewTask(string url)
         {
             url = Helper.UrlHelper.FixUrl(url);
@@ -21,23 +36,30 @@ namespace BilibiliVideoFetcher.Process
             //形如: http://www.bilibili.com/video/av1965474
             var regexNormalPattern = new Regex(@"http:\/\/www\.bilibili\.com\/video\/av\d+");
 
+            var regexBangumiPattern = new Regex(@"http:\/\/\w+\.bilibili\.com\/\w+\/v\/\d+");
+
+            var bangumiMatch = regexBangumiPattern.Match(url);
+            if (bangumiMatch.Success)
+            {
+                string aid = GetAidFromSourceHtml(Helper.NetworkHelper.GetTextFromUri(url));
+                if(aid==string.Empty)
+                {
+                    Data.NotificationData.GetInstance().Add
+                        (new Classes.NotifictionMessage(Classes.NotificationLevel.Error, "错误的地址格式! 无法获取到Aid."));
+                    return;
+                }
+                CreateTaskWithAid(aid);
+                return;
+
+            }
+
+
             var pageMatch = regexPagePattern.Match(url);
             if (pageMatch.Success)
             {
                 var fragments = pageMatch.Value.Substring(32).Split('/');
-                var aid = -1;
-                if (!int.TryParse(fragments[0], out aid))
-                {
-                    Data.NotificationData.GetInstance().Add
-                        (new Classes.NotifictionMessage(Classes.NotificationLevel.Error, "错误的aid!"));
-                    return;
-                }
-                var page =-1;
-                if(!int.TryParse(fragments[1].Substring(6, fragments[1].Length - 11),out page))
-                {
-                    Data.NotificationData.GetInstance().Add(new Classes.NotifictionMessage(Classes.NotificationLevel.Error, "错误的page!"));
-                    return;
-                }
+                var aid = fragments[0];                
+                var page = fragments[1].Substring(6, fragments[1].Length - 11);                
                 Data.NotificationData.GetInstance().Add(new Classes.NotifictionMessage(Classes.NotificationLevel.Info, "任务aid" + aid + "已开始解析! 请稍等."));
                 CreateTaskWithAid(aid, page);
                 return;
@@ -45,13 +67,7 @@ namespace BilibiliVideoFetcher.Process
             var normalMatch = regexNormalPattern.Match(url);
             if (normalMatch.Success)
             {
-                int aid = -1;
-                if(!int.TryParse(normalMatch.Value.Substring(32), out aid))
-                {
-                    Data.NotificationData.GetInstance().Add
-                        (new Classes.NotifictionMessage(Classes.NotificationLevel.Error, "错误的aid!"));
-                    return;
-                }
+                var aid = normalMatch.Value.Substring(32);
                 Data.NotificationData.GetInstance().Add(new Classes.NotifictionMessage(Classes.NotificationLevel.Info, "任务aid" + aid + "已开始解析! 请稍等."));
                 CreateTaskWithAid(aid);
                 return;
@@ -87,17 +103,10 @@ namespace BilibiliVideoFetcher.Process
             var normalMatch = regexNormalPattern.Match(text);
             if(normalMatch.Success)
             {
-                int aid = -1;
                 var fragments = normalMatch.Value.Substring(32).Split('/');
-                if (!int.TryParse(fragments[0], out aid))
-                {
-                    Data.NotificationData.GetInstance().Add
-                        (new Classes.NotifictionMessage(Classes.NotificationLevel.Error, "错误的aid!"));
-                    return;
-                }
+                var aid = fragments[0];
                 Data.NotificationData.GetInstance().Add(new Classes.NotifictionMessage(Classes.NotificationLevel.Info, "多集任务aid" + aid + "已开始解析! 请稍等."));
-
-                Process.TaskBuilder.Build(aid, partStart, partEnd);
+                TaskBuilder.Build(aid, partStart, partEnd);
             }else
             {
                 Data.NotificationData.GetInstance().Add
@@ -111,7 +120,7 @@ namespace BilibiliVideoFetcher.Process
 
         }
 
-        private static void CreateTaskWithAid(int aid, int page = 1)
+        private static void CreateTaskWithAid(string aid, string page = "1")
         {
             new Thread(delegate () {
                 TaskBuilder.Build(aid, page);

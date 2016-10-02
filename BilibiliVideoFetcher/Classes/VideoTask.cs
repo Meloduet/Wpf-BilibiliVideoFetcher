@@ -18,7 +18,7 @@ namespace BilibiliVideoFetcher.Classes
         private List<string> _downloadUrl;
         private string _danmu;
         private JsonModel.jsonVideoInfo _videoInfo;
-        public int Page { get; set; }
+        public string Page { get; set; }
         public string Name { get { return _name; } set { _name = value; NotiFy("Name"); } }
         public string Aid { get { return _aid; } set { _aid = value; NotiFy("Aid"); } }
         public string CreateTime { get { return _createTime; } set { _createTime = value; NotiFy("CreateTime"); } }
