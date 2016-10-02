@@ -41,6 +41,7 @@ namespace BilibiliVideoFetcher.Views
             else
                 Data.ApplicationSettings.GetInstance().FetchingOption.Format = "mp4";
 
+            Data.ApplicationSettings.GetInstance().SaveToFile();
             this.Close();
         }
 
