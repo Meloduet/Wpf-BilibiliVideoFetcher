@@ -6,12 +6,15 @@
         xmlns:local="clr-namespace:BilibiliVideoFetcher.Views"
         mc:Ignorable="d"
          Icon="pack://application:,,,/BilibiliVideoFetcher;component/Resources/tv_80x80.png"
-        Title="创建任务" Height="113" Width="487" WindowStartupLocation="CenterScreen">
+        Title="创建任务" Height="117" Width="498" WindowStartupLocation="CenterScreen">
     <Grid>
-        <Label x:Name="labelUrl" Content="地址" HorizontalAlignment="Left" Height="27" Margin="10,10,0,0" VerticalAlignment="Top" Width="54"/>
-        <TextBox x:Name="textBoxUrl" HorizontalAlignment="Left" Height="28" Margin="64,9,0,0" TextWrapping="Wrap" Text="http://" VerticalAlignment="Top" Width="405"/>
+        <StackPanel>
+            <Grid>
+                <Label x:Name="labelUrl" Content="地址" HorizontalAlignment="Left" Height="27" Margin="10,10,0,0" VerticalAlignment="Top" Width="54"/>
+                <TextBox x:Name="textBoxUrl" HorizontalAlignment="Left" Height="28" Margin="64,9,0,0" TextWrapping="Wrap" Text="http://" VerticalAlignment="Top" MouseDoubleClick="textBoxUrl_MouseDoubleClick" Width="415"/>
+            </Grid>
+        </StackPanel>
         <Button x:Name="buttonFetch" Content="开始" HorizontalAlignment="Left" Height="27" Margin="388,46,0,0" VerticalAlignment="Top" Width="81" Background="#FF61A4DC" BorderBrush="#FF61A4DC" Click="buttonFetch_Click"/>
-        <TextBox Text="" x:Name="textBoxStatus" IsReadOnly="True" HorizontalAlignment="Left" Height="26" Margin="10,47,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="373" BorderThickness="0" SelectionBrush="White"/>
 
     </Grid>
 </Window>

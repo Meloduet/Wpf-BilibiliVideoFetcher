@@ -6,12 +6,12 @@
         xmlns:local="clr-namespace:BilibiliVideoFetcher.Views"
         mc:Ignorable="d"
          Icon="pack://application:,,,/BilibiliVideoFetcher;component/Resources/tv_80x80.png"
-        Title="设置" Height="169.336" Width="300" ResizeMode="NoResize" WindowStyle="ToolWindow" Loaded="WindowSettings_Loaded" WindowStartupLocation="CenterScreen">
+        Title="设置" Height="177.336" Width="306" ResizeMode="NoResize" WindowStyle="ToolWindow" Loaded="WindowSettings_Loaded" WindowStartupLocation="CenterScreen">
     <Grid>
 
         <GroupBox x:Name="groupBox" Header="默认选项" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="294" Height="145">
             <StackPanel>
-                <CheckBox x:Name="checkBoxNoNoticeWhenDownload" Content="下载时不显示高级选项(画质, 格式等)" HorizontalAlignment="Left" Height="18" VerticalAlignment="Top" Width="223"/>
+                <CheckBox Visibility="Collapsed" x:Name="checkBoxNoNoticeWhenDownload" Content="下载时不显示高级选项(画质, 格式等)" HorizontalAlignment="Left" Height="18" VerticalAlignment="Top" Width="223"/>
                 <DockPanel>
                     <Label x:Name="label" Content="优先下载画质"/>
                     <RadioButton x:Name="rbHigh" Content="最高画质" VerticalAlignment="Center" />

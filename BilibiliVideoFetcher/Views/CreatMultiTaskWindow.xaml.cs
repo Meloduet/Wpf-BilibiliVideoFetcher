@@ -34,7 +34,12 @@ namespace BilibiliVideoFetcher.Views
                 }
                 Process.FetchingCore.NewMultiTask(tbUrl.Text,tbPartStart.Text, tbPartEnd.Text);
             })();
-            this.Close();
+            Close();
+        }
+
+        private void tbUrl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            tbUrl.SelectAll();
         }
     }
 }

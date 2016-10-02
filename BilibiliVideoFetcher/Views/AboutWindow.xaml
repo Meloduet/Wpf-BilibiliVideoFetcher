@@ -6,16 +6,16 @@
         xmlns:local="clr-namespace:BilibiliVideoFetcher.Views"
         mc:Ignorable="d"
          Icon="pack://application:,,,/BilibiliVideoFetcher;component/Resources/tv_80x80.png"
-        Title="关于" Height="160.346" Width="373.822" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="关于" Height="177.346" Width="398.822" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid Margin="10">
         <StackPanel>
             <TextBlock FontSize="24" FontFamily="Nyala">BiliBili Video Fetcher</TextBlock>
-            <TextBlock TextWrapping="Wrap" Name="labelAppDesc" Text=" 一个用于方便获取Bilibili真实下载地址的桌面应用程序, 开放源代码于Github, 遵循Apache开源协议." />
+            <TextBlock TextWrapping="Wrap" Name="labelAppDesc"  Text="        一个用于方便获取Bilibili真实下载地址的桌面应用程序, 开放源代码于Github, 遵循Apache开源协议." />
             <TextBlock Name="labelVersion" Text="版本: 2.0"/>
 
 
             <Grid>
-                <TextBlock Name="labelAuthor" Text="作者: Meloduet Works->void" ></TextBlock>
+                <TextBlock Name="labelAuthor" Text="作者: Meloduet Works" ></TextBlock>
                 <Button Name="buttonBlog" Padding="0,0,0,0" HorizontalAlignment="Right" Content="博客"  Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#DD0D2FC3" Height="18" Width="40" FontSize="12" Click="buttonBlog_Click" ></Button>
                 <Button Name="buttonZhihu" Padding="0,0,0,0" HorizontalAlignment="Right" Content="知乎" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#DD0D2FC3" Height="18" Width="40" Margin="0,0,45,0" FontSize="12" Click="buttonZhihu_Click"></Button>
             </Grid>

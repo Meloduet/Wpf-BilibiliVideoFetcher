@@ -25,14 +25,6 @@ namespace BilibiliVideoFetcher.Views
         {
             InitializeComponent();
         }
-        public string Status
-        {
-            set
-            {                
-                textBoxStatus.Text = value;
-                
-            }
-        }
         private void buttonFetch_Click(object sender, RoutedEventArgs e)
         {
             new Action(delegate {
@@ -40,6 +32,11 @@ namespace BilibiliVideoFetcher.Views
             })();
             this.Close();
 
+        }
+
+        private void textBoxUrl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            textBoxUrl.SelectAll();
         }
     }
 }

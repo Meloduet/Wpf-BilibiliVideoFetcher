@@ -11,7 +11,7 @@
         <StackPanel>
             <DockPanel>
                 <Label Content="地址: " />
-                <TextBox Name="tbUrl" Text="http://"></TextBox>                                
+                <TextBox Name="tbUrl" Text="http://" MouseDoubleClick="tbUrl_MouseDoubleClick"></TextBox>                                
             </DockPanel>
             <DockPanel>
                 <Label Content="分集范围: 从"></Label>
