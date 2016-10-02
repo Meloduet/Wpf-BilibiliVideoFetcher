@@ -1,4 +1,4 @@
-﻿<Window x:Class="BilibiliVideoFetcher.Views.AboutWindow"
+﻿<Window x:Name="WindowAbout" x:Class="BilibiliVideoFetcher.Views.AboutWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:BilibiliVideoFetcher.Views"
         mc:Ignorable="d"
          Icon="pack://application:,,,/BilibiliVideoFetcher;component/Resources/tv_80x80.png"
-        Title="关于" Height="177.346" Width="398.822" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="关于" Height="177.346" Width="398.822" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Loaded="WindowAbout_Loaded">
     <Grid Margin="10">
         <StackPanel>
             <TextBlock FontSize="24" FontFamily="Nyala">BiliBili Video Fetcher</TextBlock>

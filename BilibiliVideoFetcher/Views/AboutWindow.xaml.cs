@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -40,6 +41,11 @@ namespace BilibiliVideoFetcher.Views
         private void buttonPublishPage_Click(object sender, RoutedEventArgs e)
         {
             StartPage("https://v.meloduet.com/programming/bilibili-video-fetcher.html");
+        }
+
+        private void WindowAbout_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.labelVersion.Text = "版本: " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
     }
 }

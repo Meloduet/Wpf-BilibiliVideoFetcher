@@ -106,5 +106,34 @@ namespace BilibiliVideoFetcher
         {
             new Views.CreatMultiTaskWindow().Show();
         }
+
+        private void cmd_Exit(object sender, ExecutedRoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+            
+        }
+        private void cmd_CopyDownloadUrl(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (dataGrid.SelectedItems.Count == 0)
+            {
+                Data.NotificationData.GetInstance().Add(
+                    new Classes.NotifictionMessage(NotificationLevel.Warning, "尚未选择所要获取下载地址的项"));
+                return;
+                    }
+            var task = GetSelectedTask(dataGrid);
+            if(task.DownloadUrl==null||task.DownloadUrl[0]==string.Empty)
+            {
+                Data.NotificationData.GetInstance().Add(
+                    new Classes.NotifictionMessage(NotificationLevel.Warning, "尚未获取到所要复制的下载地址"));
+            }
+            else
+            {
+                Clipboard.SetText(task.DownloadUrl[0]);
+                Data.NotificationData.GetInstance().Add(
+                    new Classes.NotifictionMessage ( NotificationLevel.Info,"已复制下载地址到剪切板"));
+            }
+            
+
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BilibiliVideoFetcher.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,7 +28,11 @@ namespace BilibiliVideoFetcher.Process
                 return string.Empty;
             }
         }
-
+        public static void ReFetchTask(VideoTask task)
+        {
+            CreateTaskWithAid(task.Aid,task.Page);
+            Data.FetchingTasks.GetInstance().Tasks.Remove(task);
+        }
         public static void NewTask(string url)
         {
             url = Helper.UrlHelper.FixUrl(url);

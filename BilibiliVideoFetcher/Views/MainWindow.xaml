@@ -8,6 +8,29 @@
         Icon="pack://application:,,,/BilibiliVideoFetcher;component/Resources/tv_80x80.png"
         Title="MeloduetWorks - Bilibili视频下载解析工具" Height="415" Width="699" Loaded="WindowMain_Loaded" WindowStartupLocation="CenterScreen">
     
+    <Window.Resources>
+        <RoutedUICommand x:Key="NewTask" Text="NewTask" />
+        <RoutedUICommand x:Key="NewMultiTask" Text="NewMultiTask" />
+        <RoutedUICommand x:Key="Exit" Text="Exit" />
+        <RoutedUICommand x:Key="CopyDownloadUrl" Text="CopyDownloadUrl" />
+    </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Gesture="Ctrl+N" Command="{StaticResource NewTask}"/>
+        <KeyBinding Gesture="Ctrl+Shift+N" Command="{StaticResource NewMultiTask}"/>
+        <KeyBinding Gesture="Esc" Command="{StaticResource Exit}"/>
+        <KeyBinding Gesture="Ctrl+Shift+C" Command="{StaticResource CopyDownloadUrl}"/>
+    </Window.InputBindings>
+    <Window.CommandBindings>
+        <CommandBinding Command="{StaticResource NewTask}"
+                    Executed="menuItemCreateSingleTask_Click"/>
+        <CommandBinding Command="{StaticResource NewMultiTask}"
+                    Executed="menuItemCreateMultiTask_Click"/>
+        <CommandBinding Command="{StaticResource Exit}"
+                    Executed="cmd_Exit"/>
+        <CommandBinding Command="{StaticResource CopyDownloadUrl}"
+                    Executed="cmd_CopyDownloadUrl"/>
+    </Window.CommandBindings>
+
     <DockPanel LastChildFill="True">
         
         <Menu x:Name="menu"  VerticalAlignment="Top" DockPanel.Dock="Top">
@@ -23,6 +46,7 @@
             <MenuItem x:Name="menuItemSettings" Header="设置" Click="menuItemSettings_Click"/>
 
         </Menu>
+        
         <Border Name="borderMessage" BorderBrush="#FFB0E2FF" BorderThickness="1" Padding="10,0" Visibility="Collapsed" DockPanel.Dock="Top">
 
             <DockPanel>
