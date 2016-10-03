@@ -1,0 +1,45 @@
+﻿{
+    "bitfield": "ffff800000000000000000000000000000001ffffc00000000000000000000000000000003fffe000000000000000000000000000000000007fffc0000000000000000000000000000000000000000000007fffc0000000000000000000000000000000000000000000000",
+    "completedLength": "93765632",
+    "connections": "5",
+    "dir": "../aria2_download",
+    "downloadSpeed": "102696",
+    "files": [
+        {
+            "completedLength": "91226112",
+            "index": "1",
+            "length": "892652793",
+            "path": "../aria2_download/你的名字[720P]_bd.mp4",
+            "selected": "true",
+            "uris": [
+                {
+                    "status": "used",
+                    "uri": "http://d.pcs.baidu.com/file/0e454d3a658e21f92dcacd7b665f2e56?fid=3104004508-250528-1044895144241011&time=1475388539&rt=pr&sign=FDTAERVCY-DCb740ccc5511e5e8fedcff06b081203-6LifK3c%2FmimOXb2Nl77ZLLmagEU%3D&expires=8h&chkv=1&chkbd=1&chkpc=et&dp-logid=6391700257330309418&dp-callid=0&r=154190339"
+                },
+                {
+                    "status": "used",
+                    "uri": "http://d.pcs.baidu.com/file/0e454d3a658e21f92dcacd7b665f2e56?fid=3104004508-250528-1044895144241011&time=1475388539&rt=pr&sign=FDTAERVCY-DCb740ccc5511e5e8fedcff06b081203-6LifK3c%2FmimOXb2Nl77ZLLmagEU%3D&expires=8h&chkv=1&chkbd=1&chkpc=et&dp-logid=6391700257330309418&dp-callid=0&r=154190339"
+                },
+                {
+                    "status": "used",
+                    "uri": "http://d.pcs.baidu.com/file/0e454d3a658e21f92dcacd7b665f2e56?fid=3104004508-250528-1044895144241011&time=1475388539&rt=pr&sign=FDTAERVCY-DCb740ccc5511e5e8fedcff06b081203-6LifK3c%2FmimOXb2Nl77ZLLmagEU%3D&expires=8h&chkv=1&chkbd=1&chkpc=et&dp-logid=6391700257330309418&dp-callid=0&r=154190339"
+                },
+                {
+                    "status": "used",
+                    "uri": "http://d.pcs.baidu.com/file/0e454d3a658e21f92dcacd7b665f2e56?fid=3104004508-250528-1044895144241011&time=1475388539&rt=pr&sign=FDTAERVCY-DCb740ccc5511e5e8fedcff06b081203-6LifK3c%2FmimOXb2Nl77ZLLmagEU%3D&expires=8h&chkv=1&chkbd=1&chkpc=et&dp-logid=6391700257330309418&dp-callid=0&r=154190339"
+                },
+                {
+                    "status": "used",
+                    "uri": "http://d.pcs.baidu.com/file/0e454d3a658e21f92dcacd7b665f2e56?fid=3104004508-250528-1044895144241011&time=1475388539&rt=pr&sign=FDTAERVCY-DCb740ccc5511e5e8fedcff06b081203-6LifK3c%2FmimOXb2Nl77ZLLmagEU%3D&expires=8h&chkv=1&chkbd=1&chkpc=et&dp-logid=6391700257330309418&dp-callid=0&r=154190339"
+                }
+            ]
+        }
+    ],
+    "gid": "8bfd9a80d0fca2c7",
+    "numPieces": "852",
+    "pieceLength": "1048576",
+    "status": "active",
+    "totalLength": "892652793",
+    "uploadLength": "0",
+    "uploadSpeed": "0"
+}
