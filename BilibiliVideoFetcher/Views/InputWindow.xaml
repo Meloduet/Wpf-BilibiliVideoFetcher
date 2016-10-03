@@ -1,0 +1,17 @@
+﻿<Window x:Name="WindowInput" x:Class="BilibiliVideoFetcher.Views.InputWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BilibiliVideoFetcher.Views"
+        mc:Ignorable="d"
+        Title="输入" Height="177.487" Width="407.194">
+    <Grid Margin="10,10,10,10">
+        <TextBlock x:Name="textBlockTitle" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="359"/>
+        <TextBox x:Name="textBoxContent" HorizontalAlignment="Left" Height="30" Margin="10,31,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="359"/>
+        <Button x:Name="buttonOk" Content="确认" HorizontalAlignment="Left" Height="29" Margin="272,88,0,0" VerticalAlignment="Top" Width="97" Click="buttonOk_Click"/>
+        <Button x:Name="buttonCancel" Content="取消" HorizontalAlignment="Left" Height="29" Margin="170,88,0,0" VerticalAlignment="Top" Width="97" Background="White" BorderBrush="#FFE4E4E3" Panel.ZIndex="-3" Foreground="Black" Click="buttonCancel_Click"/>
+
+
+    </Grid>
+</Window>

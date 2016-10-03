@@ -15,8 +15,10 @@ namespace BilibiliVideoFetcher.Helper
             {
                 try
                 {
-                    string s = client.DownloadString(uri);
-                    return s;
+                    client.Headers.Add(HttpRequestHeader.UserAgent,"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.82 Safari/537.36");
+                    var bytes = client.DownloadData(uri);
+                    var encoding = Encoding.UTF8;
+                    return encoding.GetString(bytes);
                 }
                 //通常是404
                 catch (System.Net.WebException e)
@@ -40,6 +42,7 @@ namespace BilibiliVideoFetcher.Helper
             {
                 try
                 {
+                    client.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.82 Safari/537.36");
                     var s = client.DownloadData(uri);
                     return s;
                 }

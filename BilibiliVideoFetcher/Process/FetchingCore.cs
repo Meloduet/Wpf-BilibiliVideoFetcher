@@ -46,14 +46,16 @@ namespace BilibiliVideoFetcher.Process
             var bangumiMatch = regexBangumiPattern.Match(url);
             if (bangumiMatch.Success)
             {
-                string aid = GetAidFromSourceHtml(Helper.NetworkHelper.GetTextFromUri(url));
-                if(aid==string.Empty)
-                {
-                    Data.NotificationData.GetInstance().Add
-                        (new Classes.NotifictionMessage(Classes.NotificationLevel.Error, "错误的地址格式! 无法获取到Aid."));
-                    return;
-                }
-                CreateTaskWithAid(aid);
+                new Task(delegate {
+                    string aid = GetAidFromSourceHtml(Helper.NetworkHelper.GetTextFromUri(url));
+                    if (aid == string.Empty)
+                    {
+                        Data.NotificationData.GetInstance().Add
+                            (new Classes.NotifictionMessage(Classes.NotificationLevel.Error, "错误的地址格式! 无法获取到Aid."));
+                        return;
+                    }
+                    CreateTaskWithAid(aid);
+                }).Start();
                 return;
 
             }
@@ -121,8 +123,21 @@ namespace BilibiliVideoFetcher.Process
         }
         public static void NewMultiTask(string text)
         {
-            
-
+            var regexNormalPattern = new Regex(@"http:\/\/www\.bilibili\.com\/video\/av\d+");
+            var normalMatch = regexNormalPattern.Match(text);
+            if (normalMatch.Success)
+            {
+                var fragments = normalMatch.Value.Substring(32).Split('/');
+                var aid = fragments[0];
+                Data.NotificationData.GetInstance().Add(new Classes.NotifictionMessage(Classes.NotificationLevel.Info, "多集任务aid" + aid + "已开始解析! 请稍等."));
+                TaskBuilder.Build(aid);
+            }
+            else
+            {
+                Data.NotificationData.GetInstance().Add
+                        (new Classes.NotifictionMessage(Classes.NotificationLevel.Error, "无效的地址, 请输入带有av(aid)号的地址!"));
+                return;
+            }
         }
 
         private static void CreateTaskWithAid(string aid, string page = "1")

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:BilibiliVideoFetcher"
         mc:Ignorable="d"
         Icon="pack://application:,,,/BilibiliVideoFetcher;component/Resources/tv_80x80.png"
-        Title="MeloduetWorks - Bilibili视频下载解析工具" Height="415" Width="699" Loaded="WindowMain_Loaded" WindowStartupLocation="CenterScreen">
+        Title="MeloduetWorks - Bilibili视频下载解析工具" Height="415" Width="699" Loaded="WindowMain_Loaded" WindowStartupLocation="CenterScreen" Closing="WindowMain_Closing">
     
     <Window.Resources>
         <RoutedUICommand x:Key="NewTask" Text="NewTask" />
@@ -62,6 +62,13 @@
                     <MenuItem x:Name="menuItemViewDetail" Header="查看详情" Click="menuItemViewDetail_Click" />
                     <MenuItem x:Name="menuItemCopyDownloadUrl" Header="复制下载地址" Click="menuItemCopyDownloadUrl_Click" />
                     <MenuItem x:Name="menuItemViewInBilibili" Header="在Bilibili中查看" Click="menuItemViewInBilibili_Click" />
+                    
+                    <MenuItem Header="弹幕">                        
+                        <MenuItem x:Name="menuItemCopyDanmuDownloadUrl" Header="复制弹幕下载地址" Click="menuItemCopyDanmuDownloadUrl_Click"  />
+                        <MenuItem x:Name="menuItemDownloadDamnu" Header="下载到本地" Click="menuItemDownloadDamnu_Click" />
+                        <MenuItem x:Name="menuItemFiltAndDownload" Header="用正则表达式过滤并下载(需要管理员权限)" Click="menuItemFiltAndDownload_Click"  />
+                        <MenuItem x:Name="menuItemCovertToAssAndDownload" Header="转换为Ass格式并下载"  />
+                    </MenuItem>
                     <Separator />
                     <MenuItem x:Name="menuItemDelete" Header="删除" Click="menuItemDelete_Click" />
                 </ContextMenu>
