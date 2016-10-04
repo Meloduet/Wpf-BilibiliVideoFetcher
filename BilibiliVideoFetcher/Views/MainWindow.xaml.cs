@@ -200,5 +200,23 @@ namespace BilibiliVideoFetcher
             }
 
         }
+
+        private void menuItemRefetchDownloadUrl_Click(object sender, RoutedEventArgs e)
+        {
+            Data.Log.GetLogger().Info("MainWindow->menuItemRefetchDownloadUrl_Click", "Executed menuItemRefetchDownloadUrl");
+            if (dataGrid.SelectedItems.Count == 0)
+            {
+                Data.NotificationData.GetInstance().Add(
+                    new Classes.NotifictionMessage(NotificationLevel.Warning, "尚未选择所要获取下载地址的项"));
+                return;
+            }
+            var task = GetSelectedTask(dataGrid);            
+            Data.NotificationData.GetInstance().Add(
+                   new Classes.NotifictionMessage(NotificationLevel.Warning, "已开始刷新下载地址."));
+            new Task(()=>
+            {
+                Process.FetchingCore.ReFetchTask(task);
+            }).Start();
+        }
     }
 }

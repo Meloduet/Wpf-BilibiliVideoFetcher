@@ -10,7 +10,7 @@ namespace BilibiliVideoFetcher.Helper
     {
         public static string FixUrl(string url)
         {
-            if(!url.StartsWith("http://")|| !url.StartsWith("https://"))
+            if(!(url.StartsWith("http://")|| url.StartsWith("https://")))
             {
                 return "http://" + url;
             }else

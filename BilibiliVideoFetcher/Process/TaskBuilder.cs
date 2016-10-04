@@ -57,10 +57,10 @@ namespace BilibiliVideoFetcher.Process
         }
         public static void Build(string aid, string page)
         {
-            var json = Helper.NetworkHelper.GetTextFromUri(VIDEO_INFO_API + aid + "&page=" + page);
-            if (json.Length > 100)
+            var jsonVideoInfo = Helper.NetworkHelper.GetTextFromUri(VIDEO_INFO_API + aid + "&page=" + page);
+            if (jsonVideoInfo.Length > 100)
             {
-                var videoInfo = JsonConvert.DeserializeObject<jsonVideoInfo>(json);
+                var videoInfo = JsonConvert.DeserializeObject<jsonVideoInfo>(jsonVideoInfo);
                 var newTask = new VideoTask();
                 newTask.VideoInfo = videoInfo;
                 newTask.Name = "(获取下载地址中)" + videoInfo.title + (videoInfo.partname == null || videoInfo.partname == string.Empty ? string.Empty : " " + videoInfo.partname);
@@ -76,7 +76,7 @@ namespace BilibiliVideoFetcher.Process
                     Data.FetchingTasks.GetInstance().Tasks.Add(newTask);
                 });
                 var downJson = Helper.NetworkHelper.GetTextFromUri(
-                    DOWNLOAD_API + newTask.Aid + "?quality=1&type=" +
+                    DOWNLOAD_API + newTask.VideoInfo.cid + "?quality=1&type=" +
                     Data.ApplicationSettings.GetInstance().FetchingOption.Format);
                 if (downJson.Length < 100)
                 {
@@ -89,7 +89,7 @@ namespace BilibiliVideoFetcher.Process
                 {
                     var quality = jvd.accept_quality.OrderByDescending(t => t).First();
                     downJson = Helper.NetworkHelper.GetTextFromUri(
-                        DOWNLOAD_API + newTask.Aid + "?quality=" + quality);
+                        DOWNLOAD_API + newTask.VideoInfo.cid + "?quality=" + quality);
                     jvd = JsonConvert.DeserializeObject<jsonVideoDownload>(downJson);
                 }
                 if (jvd.durl.Count == 0)
@@ -110,7 +110,7 @@ namespace BilibiliVideoFetcher.Process
                     }
             else
             {
-                var errorMsg = JsonConvert.DeserializeObject<jsonVideoInfoFailedMessage>(json);
+                var errorMsg = JsonConvert.DeserializeObject<jsonVideoInfoFailedMessage>(jsonVideoInfo);
                 Data.NotificationData.GetInstance().Add(new NotifictionMessage(NotificationLevel.Error, "获取视频信息失败, 错误代号: " + errorMsg.code));
                 return;
             }

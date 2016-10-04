@@ -31,7 +31,9 @@ namespace BilibiliVideoFetcher.Process
         public static void ReFetchTask(VideoTask task)
         {
             CreateTaskWithAid(task.Aid,task.Page);
-            Data.FetchingTasks.GetInstance().Tasks.Remove(task);
+            Data.ApplicationSettings.GetInstance().Dispatcher.Invoke(()=> {
+                Data.FetchingTasks.GetInstance().Tasks.Remove(task);
+            });
         }
         public static void NewTask(string url)
         {

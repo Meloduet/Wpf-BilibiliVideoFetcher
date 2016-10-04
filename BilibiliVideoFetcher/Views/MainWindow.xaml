@@ -60,6 +60,7 @@
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem x:Name="menuItemViewDetail" Header="查看详情" Click="menuItemViewDetail_Click" />
+                    <MenuItem x:Name="menuItemRefetchDownloadUrl" Header="刷新下载地址" Click="menuItemRefetchDownloadUrl_Click" />
                     <MenuItem x:Name="menuItemCopyDownloadUrl" Header="复制下载地址" Click="menuItemCopyDownloadUrl_Click" />
                     <MenuItem x:Name="menuItemViewInBilibili" Header="在Bilibili中查看" Click="menuItemViewInBilibili_Click" />
                     
