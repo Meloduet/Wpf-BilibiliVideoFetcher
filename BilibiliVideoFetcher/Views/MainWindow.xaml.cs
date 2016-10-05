@@ -94,9 +94,10 @@ namespace BilibiliVideoFetcher
         private VideoTask GetSelectedTask(DataGrid dg)
         {
             Data.Log.GetLogger().Info("MainWindow->GetSelectedTask", "Called GetSelectedTask.");
-            var index = dg.SelectedIndex;
-            DataGridRow row = dg.ItemContainerGenerator.ContainerFromIndex(index) as DataGridRow;
-            return dg.ItemContainerGenerator.ItemFromContainer(row) as VideoTask;
+            return (VideoTask)dg.SelectedItem;
+            //var index = dg.SelectedIndex;
+            //DataGridRow row = dg.ItemContainerGenerator.ContainerFromIndex(index) as DataGridRow;
+            //return dg.ItemContainerGenerator.ItemFromContainer(row) as VideoTask;
         }
         private void menuItemViewInBilibili_Click(object sender, RoutedEventArgs e)
         {

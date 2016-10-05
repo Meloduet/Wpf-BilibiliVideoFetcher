@@ -6,8 +6,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Title="创建任务"
         Width="498"
-        Height="117"
+        Height="128"
         Icon="pack://application:,,,/BilibiliVideoFetcher;component/Resources/tv_80x80.png"
+        ResizeMode="NoResize"
+        SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterOwner"
         mc:Ignorable="d">
     <Window.Resources>
@@ -37,7 +39,7 @@
                 Grid.Row="1"
                 Width="81"
                 Height="27"
-                Margin="0,0,21,13"
+                Margin="0,0,22,7"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom"
                 Background="#FF61A4DC"

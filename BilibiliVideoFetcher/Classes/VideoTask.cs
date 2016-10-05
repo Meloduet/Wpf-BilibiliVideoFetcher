@@ -33,10 +33,7 @@ namespace BilibiliVideoFetcher.Classes
         public event PropertyChangedEventHandler PropertyChanged;
         public void NotiFy(string property)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(property));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
     }
 }
