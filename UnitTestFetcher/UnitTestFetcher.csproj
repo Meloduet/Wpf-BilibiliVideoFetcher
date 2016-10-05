@@ -54,6 +54,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Process\FetchingCoreTests.cs" />
     <Compile Include="TestAria2Helper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -61,6 +62,10 @@
     <ProjectReference Include="..\Aria2Controller\Aria2Controller.csproj">
       <Project>{14e3e49c-8afb-40a3-bcda-a5deb3e4772e}</Project>
       <Name>Aria2Controller</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BilibiliVideoFetcher\BilibiliVideoFetcher.csproj">
+      <Project>{B1AA363F-BBDD-4E60-AC8A-19F8FEA209CF}</Project>
+      <Name>BilibiliVideoFetcher</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

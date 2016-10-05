@@ -30,7 +30,7 @@ namespace BilibiliVideoFetcher
         private void menuItemCreateSingleTask_Click(object sender, RoutedEventArgs e)
         {
             Data.Log.GetLogger().Info("MainWindow->menuItemCreateSingleTask_Click", "Clicked menuItemCreateSingleTask.");
-            new Views.CreateSingleTaskWindow().Show();
+            new Views.CreateSingleTaskWindow() { Owner = this }.Show();
 
         }
 
@@ -114,7 +114,7 @@ namespace BilibiliVideoFetcher
         private void menuItemCreateMultiTask_Click(object sender, RoutedEventArgs e)
         {
             Data.Log.GetLogger().Info("MainWindow->menuItemCreateMultiTask_Click", "Clicked menuItemCreateMultiTask");
-            new Views.CreatMultiTaskWindow().Show();
+            new Views.CreatMultiTaskWindow() { Owner = this }.Show();
         }
 
         private void cmd_Exit(object sender, ExecutedRoutedEventArgs e)
@@ -210,10 +210,10 @@ namespace BilibiliVideoFetcher
                     new Classes.NotifictionMessage(NotificationLevel.Warning, "尚未选择所要获取下载地址的项"));
                 return;
             }
-            var task = GetSelectedTask(dataGrid);            
+            var task = GetSelectedTask(dataGrid);
             Data.NotificationData.GetInstance().Add(
                    new Classes.NotifictionMessage(NotificationLevel.Warning, "已开始刷新下载地址."));
-            new Task(()=>
+            new Task(() =>
             {
                 Process.FetchingCore.ReFetchTask(task);
             }).Start();
