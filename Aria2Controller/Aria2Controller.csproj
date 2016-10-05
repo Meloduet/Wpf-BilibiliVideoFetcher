@@ -7,8 +7,8 @@
     <ProjectGuid>{14E3E49C-8AFB-40A3-BCDA-A5DEB3E4772E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Aria2Controler</RootNamespace>
-    <AssemblyName>Aria2Controler</AssemblyName>
+    <RootNamespace>Aria2Controller</RootNamespace>
+    <AssemblyName>Aria2Controller</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -46,7 +46,9 @@
   <ItemGroup>
     <Compile Include="Aria2Helper.cs" />
     <Compile Include="JsonRpc\JsonRpcHelper.cs" />
+    <Compile Include="JsonRpc\Models.cs" />
     <Compile Include="Models\Aria2TaskInfo.cs" />
+    <Compile Include="Models\Aria2TaskManager.cs" />
     <Compile Include="Models\FileToken.cs" />
     <Compile Include="Models\PeerToken.cs" />
     <Compile Include="Models\UriToken.cs" />

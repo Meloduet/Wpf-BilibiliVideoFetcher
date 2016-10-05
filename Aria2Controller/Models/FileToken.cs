@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Aria2Controler.Models
+namespace Aria2Controller.Models
 {
     public class FileToken
     {
@@ -26,7 +26,7 @@ namespace Aria2Controler.Models
         private string m_length = "0";
 
         /// <summary>
-        /// File size in bytes.
+        /// 文件大小，单位：Byte
         /// </summary>
         public int Length {
             get {
@@ -38,7 +38,7 @@ namespace Aria2Controler.Models
         private string m_completedLength = "0";
 
         /// <summary>
-        /// Completed length of this file in bytes.
+        /// 已下载文件大小，单位：Byte
         /// Please note that it is possible that sum of completedLength is less than the completedLength returned by the aria2.tellStatus() method.
         /// This is because completedLength in aria2.getFiles() only includes completed pieces.
         /// On the other hand, completedLength in aria2.tellStatus() also includes partially completed pieces.

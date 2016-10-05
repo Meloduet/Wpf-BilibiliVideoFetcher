@@ -1,13 +1,14 @@
-﻿using Aria2Controler.JsonRpc;
-using Aria2Controler.Models;
+﻿using Aria2Controller.JsonRpc;
+using Aria2Controller.Models;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 
-namespace Aria2Controler
+namespace Aria2Controller
 {
     /// <summary>
     /// 
@@ -32,10 +33,103 @@ namespace Aria2Controler
     /// 封装调用aria2的方法
     /// </summary>
     /// <seealso cref="https://aria2.github.io/manual/en/html/aria2c.html#methods"/>
-    public static class Aria2Helper
+    public class Aria2Helper
     {
         const string RPC_URL = "http://localhost:6800/jsonrpc";
         const string RESULT_OK = "OK";
+        const string PROTOCOL = "http";
+
+        static Aria2Helper s_instance = new Aria2Helper();
+
+        #region "Members"
+        private string m_rpcUrl;
+        private string m_host;
+
+        /// <summary>
+        /// RPC获取调用的主机名，默认使用"localhost"
+        /// </summary>
+        public string Host {
+            get {
+                return this.m_host;
+            }
+            set {
+                if (this.m_host != value)
+                {
+                    this.m_host = value;
+                    this.m_rpcUrl = $"{PROTOCOL}://{this.m_host}:{this.m_port}{this.m_pathName}";
+                }
+            }
+        }
+        private int m_port;
+
+        /// <summary>
+        /// RPC获取调用的端口号，默认为6800
+        /// </summary>
+        public int Port {
+            get {
+                return this.m_port;
+            }
+            set {
+                if (this.m_port != value)
+                {
+                    this.m_port = value;
+                    this.m_rpcUrl = $"{PROTOCOL}://{this.m_host}:{this.m_port}{this.m_pathName}";
+                }
+            }
+        }
+
+        /// <summary>
+        /// RPC调用的路径，默认为"/jsonrpc"
+        /// </summary>
+        private string m_pathName;
+
+        public string PathName {
+            get {
+                return this.m_pathName;
+            }
+            set {
+                if (this.m_pathName != value)
+                {
+                    this.m_pathName = value;
+                    this.m_rpcUrl = $"{PROTOCOL}://{this.m_host}:{this.m_port}{this.m_pathName}";
+                }
+            }
+        }
+        #endregion
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="host">主机名</param>
+        /// <param name="port">端口号</param>
+        /// <param name="pathName">路径</param>
+        public Aria2Helper(string host = "localhost", int port = 6800, string pathName = "/jsonrpc")
+        {
+            this.m_host = host;
+            this.m_port = port;
+            this.m_pathName = pathName;
+            this.m_rpcUrl = $"{PROTOCOL}://{this.m_host}:{this.m_port}{this.m_pathName}";
+        }
+
+        private object RawRemoteCall(string method, object id = null, params object[] parameters)
+        {
+            return this.RawRemoteCall(new JsonRpcToken(method, id, parameters));
+        }
+
+        private object RawRemoteCall(JsonRpcToken token)
+        {
+            return JsonRpcHelper.RemoteCall(this.m_rpcUrl, token);
+        }
+
+        private T RawRemoteCall<T>(string method, object id = null, params object[] parameters)
+        {
+            return (T)this.RawRemoteCall(new JsonRpcToken(method, id, parameters));
+        }
+
+        private T RawRemoteCall<T>(JsonRpcToken token)
+        {
+            return (T)this.RawRemoteCall(token);
+        }
 
         /// <summary>
         /// 获取aria2的是否正在运行
@@ -77,28 +171,50 @@ namespace Aria2Controler
         /// <returns>所添加任务的GID</returns>
         public static string AddUri(string[] uris, IDictionary<string, string> options = null, int position = -1, object id = null)
         {
+            var token = new JsonRpcToken("aria2.addUri", id);
             if (options == null)
             {
-                return (string)JsonRpcHelper.RemoteCall(RPC_URL, "aria2.addUri", id, uris, new object());
+                token.Params = new object[] { uris, new object() };
             }
             else if (position < 0)
             {
-                return (string)JsonRpcHelper.RemoteCall(RPC_URL, "aria2.addUri", id, uris, options);
+                token.Params = new object[] { uris, options };
             }
-            return (string)JsonRpcHelper.RemoteCall(RPC_URL, "aria2.addUri", id, uris, options, position);
+            else
+            {
+                token.Params = new object[] { uris, options, position };
+            }
+            return s_instance.RawRemoteCall<string>(token);
+            //return (string)JsonRpcHelper.RemoteCall(RPC_URL, token);
         }
 
-        public static void AddTorrent(string torrentPath)
+        /// <summary>
+        /// 添加BT种子下载任务
+        /// </summary>
+        /// <param name="torrentPath">种子文件的路径</param>
+        public static string AddTorrent(string torrentPath, object id = null)
         {
             using (var fs = File.OpenRead(torrentPath))
             {
-                AddTorrent(fs);
+                return AddTorrent(fs);
             }
         }
 
-        public static void AddTorrent(Stream torrentStream)
+        /// <summary>
+        /// 暂未测试，添加BT种子下载任务
+        /// </summary>
+        /// <param name="torrentStream">用于读取种子内容的流</param>
+        public static string AddTorrent(Stream torrentStream, object id = null)
         {
-            throw new NotImplementedException();
+            MemoryStream ms = new MemoryStream();
+            torrentStream.CopyTo(ms);
+
+            var torrent = Convert.ToBase64String(ms.ToArray());
+
+            var token = new JsonRpcToken("aria2.addTorrent", id, torrent);
+
+            return s_instance.RawRemoteCall<string>(token);
+            //return (string)JsonRpcHelper.RemoteCall(RPC_URL, token);
         }
 
         public static void AddMetalink(string metalink)
@@ -114,8 +230,8 @@ namespace Aria2Controler
         /// <returns></returns>
         public static bool Remove(string gid, object id = null)
         {
-            var result = JsonRpcHelper.RemoteCall(RPC_URL, "aria2.remove", id, gid);
-            return (string)result == gid;
+            var result = s_instance.RawRemoteCall<string>("aria2.remove", id, gid);
+            return result == gid;
         }
 
         /// <summary>
@@ -216,7 +332,7 @@ namespace Aria2Controler
             catch (Exception)
             {
                 // TODO: 处理异常
-                return new Aria2TaskInfo() { Gid = gid, Status = TaskStatus.Removed };
+                return new Aria2TaskInfo() { Gid = gid, Status = Models.TaskStatus.Removed };
             }
         }
 
@@ -262,7 +378,7 @@ namespace Aria2Controler
             return result;
         }
 
-
+        #region"Tell Methods"
         /// <summary>
         /// 获取所有正在运行的下载项目
         /// </summary>
@@ -275,10 +391,29 @@ namespace Aria2Controler
             return result.ToObject<Aria2TaskInfo[]>();
         }
 
+        /// <summary>
+        /// 异步获取所有正在运行的下载项目
+        /// </summary>
+        /// <param name="keys">参考TellStatus方法</param>
+        /// <returns></returns>
+        public static async Task<Aria2TaskInfo[]> TellActiveAsync(object id = null, params string[] keys)
+        {
+            var obj = JsonRpcHelper.RemoteCallAsync(RPC_URL, "aria2.tellActive", id, keys);
+            var result = (JArray)(await obj);
+
+            return result.ToObject<Aria2TaskInfo[]>();
+        }
 
         private static Aria2TaskInfo[] _TellMethodBase(string method, int offset, int num, object id = null, params string[] keys)
         {
             var result = (JArray)JsonRpcHelper.RemoteCall(RPC_URL, method, id, offset, num, keys);
+            return result.ToObject<Aria2TaskInfo[]>();
+        }
+
+        private static async Task<Aria2TaskInfo[]> _TellMethodBaseAsync(string method, int offset, int num, object id = null, params string[] keys)
+        {
+            var obj = JsonRpcHelper.RemoteCallAsync(RPC_URL, method, id, offset, num, keys);
+            var result = (JArray)(await obj);
             return result.ToObject<Aria2TaskInfo[]>();
         }
 
@@ -302,6 +437,11 @@ namespace Aria2Controler
             return _TellMethodBase("aria2.tellWaiting", offset, num, id, keys);
         }
 
+        public static async Task<Aria2TaskInfo[]> TellWaitingAsync(int offset = 0, int num = 1000, object id = null, params string[] keys)
+        {
+            return await _TellMethodBaseAsync("aria2.tellWaiting", offset, num, id, keys);
+        }
+
         /// <summary>
         /// This method returns a list of waiting downloads, including paused ones.
         /// offset is an integer and specifies the offset from the download waiting at the front.
@@ -310,11 +450,17 @@ namespace Aria2Controler
         /// <param name="num"></param>
         /// </remarks>
         /// <returns></returns>
-        public static object[] TellStopped(int offset = 0, int num = 1000, object id = null, params string[] keys)
+        public static Aria2TaskInfo[] TellStopped(int offset = 0, int num = 1000, object id = null, params string[] keys)
         {
             return _TellMethodBase("aria2.tellStopped", offset, num, id, keys);
         }
 
+        public static async Task<Aria2TaskInfo[]> TellStoppedAsync(int offset = 0, int num = 1000, object id = null, params string[] keys)
+        {
+            return await _TellMethodBaseAsync("aria2.tellStopped", offset, num, id, keys);
+        }
+
+        #endregion
 
         /// <summary>
         /// 修改下载任务在队列中的位置，并返回调整后的位置。
@@ -422,6 +568,22 @@ namespace Aria2Controler
         }
         // TODO: system.multicall
 
+        #region "ListMethods"
+
+        public static string[] _ListMethods(string method, object id = null)
+        {
+            var result = (JArray)JsonRpcHelper.RemoteCall(RPC_URL, method, id);
+            return result.ToObject<string[]>();
+        }
+
+        public static async Task<string[]> _ListMethodsAsync(string method, object id = null)
+        {
+            var obj = JsonRpcHelper.RemoteCallAsync(RPC_URL, method, id);
+            var result = (JArray)(await obj);
+            return result.ToObject<string[]>();
+        }
+
+
         /// <summary>
         /// This method returns all the available RPC notifications in an array of string.
         /// Unlike other methods, this method does not require secret token.
@@ -429,8 +591,12 @@ namespace Aria2Controler
         /// </summary>
         public static string[] ListMethods(object id = null)
         {
-            var result = (JArray)JsonRpcHelper.RemoteCall(RPC_URL, "system.listMethods", id);
-            return result.ToObject<string[]>();
+            return _ListMethods("system.listMethods", id);
+        }
+
+        public static async Task<string[]> ListMethodsAsync(object id = null)
+        {
+            return await _ListMethodsAsync("system.listMethods", id);
         }
 
         /// <summary>
@@ -440,9 +606,14 @@ namespace Aria2Controler
         /// </summary>
         public static string[] ListNotifications(object id = null)
         {
-            var result = (JArray)JsonRpcHelper.RemoteCall(RPC_URL, "system.listNotifications", id);
-            return result.ToObject<string[]>();
+            return _ListMethods("system.listNotifications", id);
         }
+
+        public static async Task<string[]> ListNotificationsAsync(object id = null)
+        {
+            return await _ListMethodsAsync("system.listNotifications", id);
+        }
+        #endregion
 
         /// <summary>
         /// 启动Aria2，默认将会隐藏窗口
@@ -480,7 +651,7 @@ namespace Aria2Controler
                 }
                 if (mainWindowHandle != IntPtr.Zero)
                 {
-                    NativeApis.ShowWindow(mainWindowHandle, WindowShowStyle.Hide);
+                    NativeMethods.ShowWindow(mainWindowHandle, WindowShowStyle.Hide);
                 }
             }
         }

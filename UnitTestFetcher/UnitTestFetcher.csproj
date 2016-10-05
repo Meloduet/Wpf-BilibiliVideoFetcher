@@ -58,9 +58,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Aria2Controler\Aria2Controler.csproj">
+    <ProjectReference Include="..\Aria2Controller\Aria2Controller.csproj">
       <Project>{14e3e49c-8afb-40a3-bcda-a5deb3e4772e}</Project>
-      <Name>Aria2Controler</Name>
+      <Name>Aria2Controller</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

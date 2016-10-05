@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Aria2Controler
+namespace Aria2Controller
 {
     public struct POINT
     {
@@ -33,7 +33,7 @@ namespace Aria2Controler
         ShowDefault,
         ForceMinimized
     }
-    internal static class NativeApis
+    internal static class NativeMethods
     {
         public const int SW_HIDE = 0;
 
@@ -65,7 +65,7 @@ namespace Aria2Controler
 
         public const int SW_MAX = 11;
 
-        [DllImport("user32.dll")]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
         [DllImport("user32.dll")]
@@ -91,7 +91,7 @@ namespace Aria2Controler
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern int GetWindowTextLength(IntPtr hWnd);
 
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         private static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
 
         [DllImport("user32.dll")]
@@ -101,30 +101,30 @@ namespace Aria2Controler
         [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
         public static extern IntPtr GetParent(IntPtr hWnd);
 
-        [DllImport("user32.dll", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         public static extern IntPtr FindWindowEx(IntPtr parentHandle, IntPtr childAfter, string className, string windowTitle);
 
         public static bool ShowWindow(IntPtr hWnd, WindowShowStyle nCmdShow)
         {
-            return NativeApis.ShowWindow(hWnd, (int)nCmdShow);
+            return NativeMethods.ShowWindow(hWnd, (int)nCmdShow);
         }
 
         public static bool HideWindow(IntPtr hWnd)
         {
-            return NativeApis.ShowWindow(hWnd, 0);
+            return NativeMethods.ShowWindow(hWnd, 0);
         }
 
         public static string GetText(IntPtr hWnd)
         {
-            StringBuilder stringBuilder = new StringBuilder(NativeApis.GetWindowTextLength(hWnd) + 1);
-            NativeApis.GetWindowText(hWnd, stringBuilder, stringBuilder.Capacity);
+            StringBuilder stringBuilder = new StringBuilder(NativeMethods.GetWindowTextLength(hWnd) + 1);
+            NativeMethods.GetWindowText(hWnd, stringBuilder, stringBuilder.Capacity);
             return stringBuilder.ToString();
         }
 
         public static IntPtr GetTopLevelWindow(IntPtr hWnd)
         {
             IntPtr parent;
-            while ((parent = NativeApis.GetParent(hWnd)) != IntPtr.Zero)
+            while ((parent = NativeMethods.GetParent(hWnd)) != IntPtr.Zero)
             {
                 hWnd = parent;
             }
