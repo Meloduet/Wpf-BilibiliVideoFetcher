@@ -20,28 +20,32 @@ namespace BilibiliVideoFetcher.Views
     /// </summary>
     public partial class CreateSingleTaskWindow : Window
     {
-        
+
         public CreateSingleTaskWindow()
         {
             InitializeComponent();
         }
+
         private void buttonFetch_Click(object sender, RoutedEventArgs e)
         {
             var aid = textBoxAid.Text.Trim();
             var page = textBoxPart.Text.Trim();
             if (aid != string.Empty)
             {
-                new Action(delegate {
-                    Process.FetchingCore.NewTask("http://www.bilibili.com/video/av"+aid+"/index_"+ page + ".html");
+                new Action(delegate
+                {
+                    Process.FetchingCore.NewTask("http://www.bilibili.com/video/av" + aid + "/index_" + page + ".html");
                 })();
-               
 
-            }else
+
+            }
+            else
             {
-                new Action(delegate {
-                Process.FetchingCore.NewTask(textBoxUrl.Text);                
-            })();
-            
+                new Action(delegate
+                {
+                    Process.FetchingCore.NewTask(textBoxUrl.Text);
+                })();
+
             }
             this.Close();
 
@@ -50,16 +54,6 @@ namespace BilibiliVideoFetcher.Views
         private void textBoxUrl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             textBoxUrl.SelectAll();
-        }
-
-        private void cbUseAid_Checked(object sender, RoutedEventArgs e)
-        {
-            gridCustomAid.Visibility = Visibility.Visible;
-        }
-
-        private void cbUseAid_Unchecked(object sender, RoutedEventArgs e)
-        {
-            gridCustomAid.Visibility = Visibility.Collapsed;
         }
     }
 }

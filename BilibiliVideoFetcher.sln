@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BilibiliVideoFetcher", "Bil
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestFetcher", "UnitTestFetcher\UnitTestFetcher.csproj", "{E1881D76-FAC1-4F3B-A2DF-75C9DF755E08}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aria2Controler", "Aria2Controler\Aria2Controler.csproj", "{14E3E49C-8AFB-40A3-BCDA-A5DEB3E4772E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aria2Controller", "Aria2Controller\Aria2Controller.csproj", "{14E3E49C-8AFB-40A3-BCDA-A5DEB3E4772E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

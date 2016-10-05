@@ -29,7 +29,7 @@ namespace BilibiliVideoFetcher.Data
             }
         }
         private NotificationData() { }
-        
+
         public static NotificationData GetInstance()
         {
             return _notifications;
@@ -39,14 +39,16 @@ namespace BilibiliVideoFetcher.Data
 
         public void Add(NotifictionMessage message)
         {
-                _messages.Add(message);
-                ShowLast();
+            _messages.Add(message);
+            ShowLast();
         }
+
         private NotifictionMessage pre;
+
         public void ShowLast()
-        {            
+        {
             var index = _messages.Count - 1;
-            if(index<0)
+            if (index < 0)
                 Data.ApplicationSettings.GetInstance().Dispatcher.Invoke(delegate ()
                 {
                     _containerControl.Visibility = System.Windows.Visibility.Collapsed;
@@ -57,14 +59,11 @@ namespace BilibiliVideoFetcher.Data
                 Data.ApplicationSettings.GetInstance().Dispatcher.Invoke(delegate ()
                 {
                     _containerControl.Visibility = System.Windows.Visibility.Visible;
-                    _titleLabel.Content = lastMsg.LevelToString() + (_messages.Count>1? "(总共:" + _messages.Count + ")":string.Empty);
-                    _messageLabel.Content = lastMsg.Message;                 
+                    _titleLabel.Content = lastMsg.LevelToString() + (_messages.Count > 1 ? "(总共:" + _messages.Count + ")" : string.Empty);
+                    _messageLabel.Content = lastMsg.Message;
                 });
-                
+
             }
-            
-
-
         }
 
         internal void RemoveLast()
@@ -72,6 +71,23 @@ namespace BilibiliVideoFetcher.Data
             var lastMsg = _messages[_messages.Count - 1];
             _messages.Remove(lastMsg);
             ShowLast();
+        }
+
+        /// <summary>
+        /// 语法糖，相当于NotificationData.GetInstance().Add
+        /// </summary>
+        /// <param name="message"></param>
+        public static void AddNotifiction(NotifictionMessage message)
+        {
+            _notifications.Add(message);
+        }
+
+        /// <summary>
+        /// 语法糖，相当于NotificationData.GetInstance().Add
+        /// </summary>
+        public static void AddNotifiction(NotificationLevel level, string message)
+        {
+            AddNotifiction(new NotifictionMessage(level, message));
         }
     }
 }

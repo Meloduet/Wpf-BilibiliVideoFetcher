@@ -1,5 +1,5 @@
-﻿using Aria2Controler;
-using Aria2Controler.Models;
+﻿using Aria2Controller;
+using Aria2Controller.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using System;
@@ -15,23 +15,55 @@ namespace UnitTestFetcher
     [TestClass]
     public class TestAria2Helper
     {
+        //public TestAria2Helper()
+        //{
+        //    Assert.IsTrue(Aria2Helper.IsAria2Running, "未启动Aria2");
+        //}
+
+        /// <summary>
+        /// 测试获取任务状态的方法
+        /// </summary>
         [TestMethod]
-        public void TestTellDownlaods()
+        public void TestTellActive()
         {
             Console.WriteLine("TellActive");
             Console.WriteLine(string.Join(",", (object[])Aria2Helper.TellActive()));
+        }
+
+        [TestMethod]
+        public void TestTellStopped()
+        {
 
             Console.WriteLine("TellStopped");
             Console.WriteLine(string.Join(",", (object[])Aria2Helper.TellStopped(0, 1000)));
+        }
 
+        [TestMethod]
+        public void TestTellWaiting()
+        {
             Console.WriteLine("TellWaiting");
             Console.WriteLine(string.Join(",", (object[])Aria2Helper.TellWaiting(0, 1000)));
         }
 
+        /// <summary>
+        /// 测试异步获取任务状态的方法
+        /// </summary>
         [TestMethod]
-        public void TestIsAria2Running()
+        public void TestTellDownlaodsAsync()
         {
-            Assert.IsTrue(Aria2Helper.IsAria2Running, "未启动Aria2");
+
+            var actives = Aria2Helper.TellActiveAsync();
+            var stops = Aria2Helper.TellStoppedAsync(0, 1000);
+            var waitings = Aria2Helper.TellWaitingAsync(0, 1000);
+
+            Console.WriteLine("TellActive");
+            Console.WriteLine(string.Join(",", (object[])actives.Result));
+
+            Console.WriteLine("TellStopped");
+            Console.WriteLine(string.Join(",", (object[])stops.Result));
+
+            Console.WriteLine("TellWaiting");
+            Console.WriteLine(string.Join(",", (object[])waitings.Result));
         }
 
         [TestMethod]
@@ -77,6 +109,16 @@ namespace UnitTestFetcher
         {
             Console.WriteLine(string.Join("\r\n", (object[])Aria2Helper.ListMethods()));
             Console.WriteLine(string.Join("\r\n", (object[])Aria2Helper.ListNotifications()));
+        }
+
+        [TestMethod]
+        public void TestListAsync()
+        {
+            var methods = Aria2Helper.ListMethodsAsync();
+            var notifications = Aria2Helper.ListNotificationsAsync();
+
+            Console.WriteLine(string.Join("\r\n", (object[])methods.Result));
+            Console.WriteLine(string.Join("\r\n", (object[])notifications.Result));
         }
 
         /// <summary>

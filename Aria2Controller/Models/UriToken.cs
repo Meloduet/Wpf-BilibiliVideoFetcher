@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Aria2Controler.Models
+namespace Aria2Controller.Models
 {
     public enum UriTokenStatus
     {

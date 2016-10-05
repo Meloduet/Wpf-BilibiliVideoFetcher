@@ -1,4 +1,4 @@
-# Aria2Controler
+# Aria2Controller
 
   封装了JSON-RPC调用Aria2进行下载相关操作的方法
 
