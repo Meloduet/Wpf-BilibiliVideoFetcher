@@ -8,6 +8,8 @@
         Width="539"
         Height="188"
         Icon="pack://application:,,,/BilibiliVideoFetcher;component/Resources/tv_80x80.png"
+        ResizeMode="NoResize"
+        SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterOwner"
         mc:Ignorable="d">
     <Grid>
@@ -27,10 +29,9 @@
             </StackPanel>
 
             <Button Name="buttonStart"
-                    Grid.Row="1"
-                    Grid.RowSpan="2"
+                    Grid.Row="2"
                     Height="28"
-                    Margin="0,0,10,19"
+                    Margin="0,0,10,10"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"
                     Click="buttonStart_Click"

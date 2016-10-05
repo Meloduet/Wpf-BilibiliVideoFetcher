@@ -89,5 +89,14 @@ namespace BilibiliVideoFetcher.Data
         {
             AddNotifiction(new NotifictionMessage(level, message));
         }
+
+        /// <summary>
+        /// 添加一个NotificationLevel为Error的通知
+        /// </summary>
+        /// <param name="message"></param>
+        public static void AddErrorNotifiction(string message)
+        {
+            AddNotifiction(NotificationLevel.Error, message);
+        }
     }
 }

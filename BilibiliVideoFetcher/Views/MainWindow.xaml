@@ -1,13 +1,19 @@
-﻿<Window x:Name="WindowMain" x:Class="BilibiliVideoFetcher.MainWindow"
+﻿<Window x:Class="BilibiliVideoFetcher.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BilibiliVideoFetcher"
-        mc:Ignorable="d"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        x:Name="WindowMain"
+        Title="MeloduetWorks - Bilibili视频下载解析工具"
+        Width="699"
+        Height="415"
+        Closing="WindowMain_Closing"
         Icon="pack://application:,,,/BilibiliVideoFetcher;component/Resources/tv_80x80.png"
-        Title="MeloduetWorks - Bilibili视频下载解析工具" Height="415" Width="699" Loaded="WindowMain_Loaded" WindowStartupLocation="CenterScreen" Closing="WindowMain_Closing">
-    
+        Loaded="WindowMain_Loaded"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d">
+
     <Window.Resources>
         <RoutedUICommand x:Key="NewTask" Text="NewTask" />
         <RoutedUICommand x:Key="NewMultiTask" Text="NewMultiTask" />
@@ -15,72 +21,122 @@
         <RoutedUICommand x:Key="CopyDownloadUrl" Text="CopyDownloadUrl" />
     </Window.Resources>
     <Window.InputBindings>
-        <KeyBinding Gesture="Ctrl+N" Command="{StaticResource NewTask}"/>
-        <KeyBinding Gesture="Ctrl+Shift+N" Command="{StaticResource NewMultiTask}"/>
-        <KeyBinding Gesture="Esc" Command="{StaticResource Exit}"/>
-        <KeyBinding Gesture="Ctrl+Shift+C" Command="{StaticResource CopyDownloadUrl}"/>
+        <KeyBinding Command="{StaticResource NewTask}" Gesture="Ctrl+N" />
+        <KeyBinding Command="{StaticResource NewMultiTask}" Gesture="Ctrl+Shift+N" />
+        <KeyBinding Command="{StaticResource Exit}" Gesture="Esc" />
+        <KeyBinding Command="{StaticResource CopyDownloadUrl}" Gesture="Ctrl+Shift+C" />
     </Window.InputBindings>
     <Window.CommandBindings>
-        <CommandBinding Command="{StaticResource NewTask}"
-                    Executed="menuItemCreateSingleTask_Click"/>
-        <CommandBinding Command="{StaticResource NewMultiTask}"
-                    Executed="menuItemCreateMultiTask_Click"/>
-        <CommandBinding Command="{StaticResource Exit}"
-                    Executed="cmd_Exit"/>
-        <CommandBinding Command="{StaticResource CopyDownloadUrl}"
-                    Executed="cmd_CopyDownloadUrl"/>
+        <CommandBinding Command="{StaticResource NewTask}" Executed="menuItemCreateSingleTask_Click" />
+        <CommandBinding Command="{StaticResource NewMultiTask}" Executed="menuItemCreateMultiTask_Click" />
+        <CommandBinding Command="{StaticResource Exit}" Executed="cmd_Exit" />
+        <CommandBinding Command="{StaticResource CopyDownloadUrl}" Executed="cmd_CopyDownloadUrl" />
     </Window.CommandBindings>
 
     <DockPanel LastChildFill="True">
-        
-        <Menu x:Name="menu"  VerticalAlignment="Top" DockPanel.Dock="Top">
-            <MenuItem Name="menuItemAbout" Header="" Width="49" Click="menuItemAbout_Click">
+
+        <Menu x:Name="menu"
+              VerticalAlignment="Top"
+              DockPanel.Dock="Top">
+            <MenuItem Name="menuItemAbout"
+                      Width="49"
+                      Click="menuItemAbout_Click"
+                      Header="">
                 <MenuItem.Background>
                     <ImageBrush ImageSource="pack://application:,,,/BilibiliVideoFetcher;component/Resources/tv_80x80.png" />
                 </MenuItem.Background>
             </MenuItem>
             <MenuItem Header="创建">
-                <MenuItem Name="menuItemCreateSingleTask" Header="单个任务" HorizontalAlignment="Left" Width="116" Click="menuItemCreateSingleTask_Click"/>
-                <MenuItem Name="menuItemCreateMultiTask" Header="批量任务" HorizontalAlignment="Left" Width="116" Click="menuItemCreateMultiTask_Click"/>
+                <MenuItem Name="menuItemCreateSingleTask"
+                          Width="116"
+                          HorizontalAlignment="Left"
+                          Click="menuItemCreateSingleTask_Click"
+                          Header="单个任务" />
+                <MenuItem Name="menuItemCreateMultiTask"
+                          Width="116"
+                          HorizontalAlignment="Left"
+                          Click="menuItemCreateMultiTask_Click"
+                          Header="批量任务" />
             </MenuItem>
-            <MenuItem x:Name="menuItemSettings" Header="设置" Click="menuItemSettings_Click"/>
+            <MenuItem x:Name="menuItemSettings"
+                      Click="menuItemSettings_Click"
+                      Header="设置" />
 
         </Menu>
-        
-        <Border Name="borderMessage" BorderBrush="#FFB0E2FF" BorderThickness="1" Padding="10,0" Visibility="Collapsed" DockPanel.Dock="Top">
+
+        <Border Name="borderMessage"
+                BorderBrush="#FFB0E2FF"
+                BorderThickness="1"
+                DockPanel.Dock="Top"
+                Padding="10,0"
+                Visibility="Collapsed">
 
             <DockPanel>
-                <Label Name="labelMsgTitle" Content="Info" FontWeight="Bold" />
+                <Label Name="labelMsgTitle"
+                       Content="Info"
+                       FontWeight="Bold" />
                 <Label Name="labelMsgContent" Content="Content" />
-                <Button Name="buttonCloseMessage" Width="16" Height="16" HorizontalAlignment="Right" Content="X" Background="{x:Null}" Foreground="#DD000000" BorderBrush="{x:Null}" Padding="0" FontSize="10" Click="buttonCloseMessage_Click"/>
+                <Button Name="buttonCloseMessage"
+                        Width="16"
+                        Height="16"
+                        HorizontalAlignment="Right"
+                        Background="{x:Null}"
+                        BorderBrush="{x:Null}"
+                        Click="buttonCloseMessage_Click"
+                        Content="X"
+                        FontSize="10"
+                        Foreground="#DD000000"
+                        Padding="0" />
             </DockPanel>
         </Border>
 
-        <DataGrid IsReadOnly="True" AutoGenerateColumns="False" x:Name="dataGrid"  >
+        <DataGrid x:Name="dataGrid"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True">
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem x:Name="menuItemViewDetail" Header="查看详情" Click="menuItemViewDetail_Click" />
-                    <MenuItem x:Name="menuItemRefetchDownloadUrl" Header="刷新下载地址" Click="menuItemRefetchDownloadUrl_Click" />
-                    <MenuItem x:Name="menuItemCopyDownloadUrl" Header="复制下载地址" Click="menuItemCopyDownloadUrl_Click" />
-                    <MenuItem x:Name="menuItemViewInBilibili" Header="在Bilibili中查看" Click="menuItemViewInBilibili_Click" />
-                    
-                    <MenuItem Header="弹幕">                        
-                        <MenuItem x:Name="menuItemCopyDanmuDownloadUrl" Header="复制弹幕下载地址" Click="menuItemCopyDanmuDownloadUrl_Click"  />
-                        <MenuItem x:Name="menuItemDownloadDamnu" Header="下载到本地" Click="menuItemDownloadDamnu_Click" />
-                        <MenuItem x:Name="menuItemFiltAndDownload" Header="用正则表达式过滤并下载(需要管理员权限)" Click="menuItemFiltAndDownload_Click"  />
-                        <MenuItem x:Name="menuItemCovertToAssAndDownload" Header="转换为Ass格式并下载"  />
+                    <MenuItem x:Name="menuItemViewDetail"
+                              Click="menuItemViewDetail_Click"
+                              Header="查看详情" />
+                    <MenuItem x:Name="menuItemRefetchDownloadUrl"
+                              Click="menuItemRefetchDownloadUrl_Click"
+                              Header="刷新下载地址" />
+                    <MenuItem x:Name="menuItemCopyDownloadUrl"
+                              Click="menuItemCopyDownloadUrl_Click"
+                              Header="复制下载地址" />
+                    <MenuItem x:Name="menuItemViewInBilibili"
+                              Click="menuItemViewInBilibili_Click"
+                              Header="在Bilibili中查看" />
+
+                    <MenuItem Header="弹幕">
+                        <MenuItem x:Name="menuItemCopyDanmuDownloadUrl"
+                                  Click="menuItemCopyDanmuDownloadUrl_Click"
+                                  Header="复制弹幕下载地址" />
+                        <MenuItem x:Name="menuItemDownloadDamnu"
+                                  Click="menuItemDownloadDamnu_Click"
+                                  Header="下载到本地" />
+                        <MenuItem x:Name="menuItemFiltAndDownload"
+                                  Click="menuItemFiltAndDownload_Click"
+                                  Header="用正则表达式过滤并下载(需要管理员权限)" />
+                        <MenuItem x:Name="menuItemCovertToAssAndDownload" Header="转换为Ass格式并下载" />
                     </MenuItem>
                     <Separator />
-                    <MenuItem x:Name="menuItemDelete" Header="删除" Click="menuItemDelete_Click" />
+                    <MenuItem x:Name="menuItemDelete"
+                              Click="menuItemDelete_Click"
+                              Header="删除" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Aid" Binding="{Binding Aid}"/>
-                <DataGridTextColumn Header="名称" Width="400" Binding="{Binding Name}"/>
-                <DataGridTextColumn Header="分集" Width="400" Binding="{Binding Partname}"/>                
-                <DataGridTextColumn Header="文件大小" Binding="{Binding Size}"/>
+                <DataGridTextColumn Binding="{Binding Aid}" Header="Aid" />
+                <DataGridTextColumn Width="400"
+                                    Binding="{Binding Name}"
+                                    Header="名称" />
+                <DataGridTextColumn Width="400"
+                                    Binding="{Binding Partname}"
+                                    Header="分集" />
+                <DataGridTextColumn Binding="{Binding Size}" Header="文件大小" />
             </DataGrid.Columns>
-            
+
         </DataGrid>
     </DockPanel>
 </Window>
