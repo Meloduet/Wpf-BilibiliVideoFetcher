@@ -1,6 +1,6 @@
 ﻿namespace BilibiliVideoFetcher.Classes.JsonModel
 {
-    public class jsonVideoInfo
+    public class VideoInfo
     {
         public int tid { get; set; }
         public string typename { get; set; }

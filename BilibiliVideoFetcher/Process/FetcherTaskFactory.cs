@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BilibiliVideoFetcher.Classes.JsonModel
+namespace BilibiliVideoFetcher.Process
 {
-    public class jsonVideoInfoFailedMessage
+    public class FetcherTaskFactory
     {
-        public int code { get; set; }
+
+
     }
 }

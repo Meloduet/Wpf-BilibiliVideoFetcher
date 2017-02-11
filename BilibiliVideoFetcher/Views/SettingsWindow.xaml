@@ -5,36 +5,35 @@
         xmlns:local="clr-namespace:BilibiliVideoFetcher.Views"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         x:Name="WindowSettings"
+        SizeToContent="Height"
         Title="设置"
-        Width="306"
-        Height="177.336"
-        Icon="pack://application:,,,/BilibiliVideoFetcher;component/Resources/tv_80x80.png"
+        Width="400"
+        Height="266"
+        Icon="{DynamicResource AppIcon}"
         Loaded="WindowSettings_Loaded"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="ToolWindow"
+        WindowStyle="ToolWindow"        
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
+        Background="{DynamicResource MaterialDesignPaper}"
         mc:Ignorable="d">
-    <Grid>
-
+    <StackPanel>        
         <GroupBox x:Name="groupBox"
-                  Width="294"
-                  Height="145"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Top"
+                  HorizontalAlignment="Stretch"
+                  Margin="3,0,3,3"
                   Header="默认选项">
             <StackPanel>
                 <CheckBox x:Name="checkBoxNoNoticeWhenDownload"
-                          Width="223"
-                          Height="18"
                           HorizontalAlignment="Left"
                           VerticalAlignment="Top"
                           Content="下载时不显示高级选项(画质, 格式等)"
-                          Visibility="Collapsed" />
+                          Visibility="Visible" />
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
-                        <RowDefinition Height="12px" />
+                        <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto" />
@@ -48,7 +47,7 @@
                     <WrapPanel Grid.Row="0"
                                Grid.Column="1"
                                VerticalAlignment="Center"
-                               ItemWidth="80">
+                               ItemWidth="100">
                         <RadioButton x:Name="rbHigh"
                                      VerticalAlignment="Center"
                                      Content="最高画质" />
@@ -65,7 +64,7 @@
                     <WrapPanel Grid.Row="1"
                                Grid.Column="1"
                                VerticalAlignment="Center"
-                               ItemWidth="80">
+                               ItemWidth="100">
                         <RadioButton x:Name="rbFlv"
                                      VerticalAlignment="Center"
                                      Content="flv格式" />
@@ -74,14 +73,44 @@
                                      Content="mp4格式" />
                     </WrapPanel>
                 </Grid>
-                <Button Name="buttonSave"
-                        Width="auto"
-                        Margin="0,0,5,5"
-                        HorizontalAlignment="Right"
-                        Click="buttonSave_Click"
-                        Content="保存" />
+
             </StackPanel>
         </GroupBox>
-
-    </Grid>
+        <GroupBox Header="高级功能" Margin="3,0,3,3">
+            <StackPanel>
+                <BulletDecorator>
+                    <BulletDecorator.Bullet>
+                        <TextBlock Text="使用原生API"/>
+                    </BulletDecorator.Bullet>
+                    <ToggleButton x:Name="tgbUseNativeApi" ToolTip="使用原生API" Margin="8,0,0,0"></ToggleButton>
+                </BulletDecorator>
+                <BulletDecorator Visibility="{Binding IsChecked, ElementName=tgbUseNativeApi,Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <BulletDecorator.Bullet>
+                        <TextBlock Text="AccessKey:"/>
+                    </BulletDecorator.Bullet>
+                    <TextBox x:Name="txtAccessKey" ToolTip="AccessKey" Margin="8,0,0,0"/>
+                </BulletDecorator>
+            </StackPanel>
+        </GroupBox>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3px"></RowDefinition>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Button Name="buttonSave"
+                            Grid.Row="1"
+                        Width="auto"
+                        Margin="0,0,90,3"
+                        HorizontalAlignment="Right"
+                        Click="ButtonSave_Click"
+                        Content="保存" Grid.Column="1" />
+            <Button Name="buttonCanel"
+                            Grid.Row="1" Grid.ColumnSpan="3"
+                        Width="auto"
+                        Margin="0,0,5,3"
+                        HorizontalAlignment="Right"
+                        Click="ButtonCanel_Click"
+                        Content="取消" />
+        </Grid>
+    </StackPanel>
 </Window>

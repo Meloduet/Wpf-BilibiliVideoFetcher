@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BilibiliVideoFetcher.Data;
+using System.Configuration;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace BilibiliVideoFetcher.Views
 {
@@ -24,40 +14,57 @@ namespace BilibiliVideoFetcher.Views
             InitializeComponent();
         }
 
-        private void buttonSave_Click(object sender, RoutedEventArgs e)
+        private void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
+            ApplicationSettings currentSettings = ApplicationSettings.GetInstance();
+            var fetchingOption = currentSettings.FetchingOption;
             if (checkBoxNoNoticeWhenDownload.IsChecked == true)
-                Data.ApplicationSettings.GetInstance().FetchingOption.NoNoticeWhenDownload = true;
+                fetchingOption.NoNoticeWhenDownload = true;
             else
-                Data.ApplicationSettings.GetInstance().FetchingOption.NoNoticeWhenDownload = false;
+               fetchingOption.NoNoticeWhenDownload = false;
 
-            if (rbHigh.IsChecked == true)
-                Data.ApplicationSettings.GetInstance().FetchingOption.Quality = "high";
+            if (rbHigh.IsChecked.Value)
+                fetchingOption.Quality = "high";
             else
-                Data.ApplicationSettings.GetInstance().FetchingOption.Quality = "low";
+                fetchingOption.Quality = "low";
 
-            if (rbFlv.IsChecked == true)
-                Data.ApplicationSettings.GetInstance().FetchingOption.Format = "flv";
+            if (rbFlv.IsChecked.Value)
+                fetchingOption.Format = "flv";
             else
-                Data.ApplicationSettings.GetInstance().FetchingOption.Format = "mp4";
+                fetchingOption.Format = "mp4";
 
-            Data.ApplicationSettings.GetInstance().SaveToFile();
+            currentSettings.SaveToFile();
+
+            AdvanceSettings.UseNativeApi = tgbUseNativeApi.IsChecked.Value;
+            AdvanceSettings.AccessKey = txtAccessKey.Text.Trim();
+            AdvanceSettings.Save();
             this.Close();
         }
 
         private void WindowSettings_Loaded(object sender, RoutedEventArgs e)
         {
-            checkBoxNoNoticeWhenDownload.IsChecked = Data.ApplicationSettings.GetInstance().FetchingOption.NoNoticeWhenDownload;
 
-            if(Data.ApplicationSettings.GetInstance().FetchingOption.Quality=="high")
+            ApplicationSettings currentSettings = ApplicationSettings.GetInstance();
+            var fetchingOption = currentSettings.FetchingOption;
+            checkBoxNoNoticeWhenDownload.IsChecked = fetchingOption.NoNoticeWhenDownload;
+
+            if (fetchingOption.Quality == "high")
                 rbHigh.IsChecked = true;
             else
                 rbLow.IsChecked = true;
 
-            if(Data.ApplicationSettings.GetInstance().FetchingOption.Format=="flv")
+            if (fetchingOption.Format == "flv")
                 rbFlv.IsChecked = true;
             else
                 rbMp4.IsChecked = true;
+
+            tgbUseNativeApi.IsChecked = AdvanceSettings.UseNativeApi;
+            txtAccessKey.Text = AdvanceSettings.AccessKey;
+        }
+
+        private void ButtonCanel_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }
