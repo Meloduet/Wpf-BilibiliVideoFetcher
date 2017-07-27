@@ -118,6 +118,7 @@ namespace BilibiliVideoFetcher.Process
             {
                 NotificationData.AddErrorNotifiction(
                     "无法获取cid:" + cid + "的下载地址, 可能是非bilibili源的缘故");
+                newTask.State = FetchState.Error;
                 return;
             }
             var jvd = JsonConvert.DeserializeObject<jsonVideoDownload>(downJson);
@@ -134,6 +135,7 @@ namespace BilibiliVideoFetcher.Process
             {
                 NotificationData.AddErrorNotifiction(
                     "无法获取cid:" + cid + "的下载地址, durl.count = 0");
+                newTask.State = FetchState.Error;
                 return;
             }
 
