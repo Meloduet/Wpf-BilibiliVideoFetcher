@@ -1,24 +1,14 @@
-﻿using BilibiliVideoFetcher.Classes;
+﻿using BilibiliVideoFetcher.Process;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace BilibiliVideoFetcher.Views
 {
     /// <summary>
     /// CreateSingleTaskWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class CreateSingleTaskWindow : Window
+    public partial class CreateSingleTaskWindow : TaskDialog
     {
 
         public CreateSingleTaskWindow()
@@ -26,34 +16,53 @@ namespace BilibiliVideoFetcher.Views
             InitializeComponent();
         }
 
-        private void buttonFetch_Click(object sender, RoutedEventArgs e)
+        private void ButtonFetch_Click(object sender, RoutedEventArgs e)
         {
-            var aid = textBoxAid.Text.Trim();
-            var page = textBoxPart.Text.Trim();
-            if (aid != string.Empty)
+            if (base.UseAid)
             {
-                new Action(delegate
+                var aid = TaskDialog.GetAid(textBoxAid.Text);
+                if (aid != string.Empty)
                 {
-                    Process.FetchingCore.NewTask("http://www.bilibili.com/video/av" + aid + "/index_" + page + ".html");
-                })();
-
-
+                    if (!int.TryParse(textBoxPart.Text.Trim(), out int page))
+                    {
+                        page = 1;
+                    }
+                    this.OnNewTaskRequested(aid, page);
+                }
             }
             else
             {
-                new Action(delegate
+                var url = textBoxUrl.Text.Trim();
+                try
                 {
-                    Process.FetchingCore.NewTask(textBoxUrl.Text);
-                })();
-
+                    this.OnNewTaskRequested(FetchingCore.GetTaskTokenFromUrl(url));
+                }
+                catch (Exception ex)
+                {
+                    base.OnErrorCaptured(ex);
+                    return;
+                }
             }
-            this.Close();
 
+            this.Close();
         }
 
-        private void textBoxUrl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void TextBoxUrl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             textBoxUrl.SelectAll();
         }
+
+        public event NewTaskRequestEventHandler NewTaskRequested;
+
+        public void OnNewTaskRequested(string aid, int partIndex)
+        {
+            this.OnNewTaskRequested(new FetcherTaskToken(aid, partIndex));
+        }
+
+        public void OnNewTaskRequested(FetcherTaskToken token)
+        {
+            this.NewTaskRequested?.Invoke(this, new NewTaskRequestEventArgs(token));
+        }
+
     }
 }

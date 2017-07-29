@@ -37,19 +37,17 @@
     <ApplicationIcon>tv_80x80.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MaterialDesignColors, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MaterialDesignColors.1.1.2\lib\net45\MaterialDesignColors.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="MaterialDesignColors, Version=1.1.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignColors.1.1.3\lib\net45\MaterialDesignColors.dll</HintPath>
     </Reference>
-    <Reference Include="MaterialDesignThemes.Wpf, Version=2.1.0.657, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MaterialDesignThemes.2.1.0.657\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=2.3.0.823, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.2.3.0.823\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
@@ -70,11 +68,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Classes\FetchState.cs" />
+    <Compile Include="Classes\VideoFormat.cs" />
+    <Compile Include="Classes\VideoParams.cs" />
+    <Compile Include="Classes\XmlModel\Danmaku.cs" />
     <Compile Include="Classes\XmlModel\xmlDanmu.cs" />
+    <Compile Include="Data\AdvanceSettings.cs" />
+    <Compile Include="Classes\BilibiliVideoInfo.cs" />
     <Compile Include="Data\Logger.cs" />
     <Compile Include="Helper\XmlSerializerHelper.cs" />
     <Compile Include="Helper\FileHelper.cs" />
     <Compile Include="Process\DanmuOpt.cs" />
+    <Compile Include="Process\Exceptions.cs" />
+    <Compile Include="Process\FetcherTaskFactory.cs" />
+    <Compile Include="Process\FetcherTaskToken.cs" />
     <Compile Include="Views\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
@@ -84,9 +91,15 @@
     <Compile Include="Views\InputWindow.xaml.cs">
       <DependentUpon>InputWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\NotificationBar.cs" />
+    <Compile Include="Views\NotificationLevelToImageConverter.cs" />
     <Compile Include="Views\SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\AboutWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -107,7 +120,8 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Compile Include="Views\VideoInfoWindow.xaml.cs" >
+    <Compile Include="Views\TaskDialog.cs" />
+    <Compile Include="Views\VideoInfoWindow.xaml.cs">
       <DependentUpon>VideoInfoWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\MainWindow.xaml">
@@ -120,8 +134,8 @@
     </Compile>
     <Compile Include="Classes\FetchStatus.cs" />
     <Compile Include="Classes\JsonModel\jsonVideoDownload.cs" />
-    <Compile Include="Classes\JsonModel\jsonVideoInfo.cs" />
-    <Compile Include="Classes\JsonModel\jsonVideoInfoFailedMessage.cs" />
+    <Compile Include="Classes\JsonModel\VideoInfo.cs" />
+    <Compile Include="Classes\JsonModel\ServerSideException.cs" />
     <Compile Include="Classes\NotifictionMessage.cs" />
     <Compile Include="Classes\VideoTask.cs" />
     <Compile Include="Data\ApplicationSettings.cs" />
@@ -129,6 +143,8 @@
     <Compile Include="Data\NotificationData.cs" />
     <Compile Include="Helper\NetworkHelper.cs" />
     <Compile Include="Helper\UrlHelper.cs" />
+    <Compile Include="Helper\MD5Helper.cs" />
+    <Compile Include="Helper\BiliBiliApiHelper.cs" />
     <Compile Include="Process\FetchingCore.cs" />
     <Compile Include="Process\TaskBuilder.cs" />
     <Compile Include="Views\CreateSingleTaskWindow.xaml.cs">

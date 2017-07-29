@@ -8,146 +8,77 @@ using System.Xml.Serialization;
 namespace BilibiliVideoFetcher.Classes.XmlModel
 {
 
-
-        /// <remarks/>
-        [System.SerializableAttribute()]
-        [System.ComponentModel.DesignerCategoryAttribute("code")]
-        [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+    /// <remarks/>
+    [System.SerializableAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     [XmlRoot(Namespace = "", ElementName = "i", DataType = "string", IsNullable = true)]
-    public partial class xmlDanmu
-        {
+    public class XmlDanmu
+    {
 
-            private string chatserverField;
+        private string chatserverField;
 
-            private uint chatidField;
+        private int chatidField;
 
-            private byte missionField;
+        private int missionField;
 
-            private ushort maxlimitField;
+        private int maxlimitField;
 
-            private string sourceField;
+        private string sourceField;
 
-            private List<iD> dField;
-
-            /// <remarks/>
-            public string chatserver
-            {
-                get
-                {
-                    return this.chatserverField;
-                }
-                set
-                {
-                    this.chatserverField = value;
-                }
+        [XmlElement("chatserver")]
+        public string ChatServer {
+            get {
+                return this.chatserverField;
             }
-
-            /// <remarks/>
-            public uint chatid
-            {
-                get
-                {
-                    return this.chatidField;
-                }
-                set
-                {
-                    this.chatidField = value;
-                }
+            set {
+                this.chatserverField = value;
             }
+        }
 
-            /// <remarks/>
-            public byte mission
-            {
-                get
-                {
-                    return this.missionField;
-                }
-                set
-                {
-                    this.missionField = value;
-                }
+        [XmlElement("chatid")]
+        public int ChatId {
+            get {
+                return this.chatidField;
             }
-
-            /// <remarks/>
-            public ushort maxlimit
-            {
-                get
-                {
-                    return this.maxlimitField;
-                }
-                set
-                {
-                    this.maxlimitField = value;
-                }
+            set {
+                this.chatidField = value;
             }
+        }
 
-            /// <remarks/>
-            public string source
-            {
-                get
-                {
-                    return this.sourceField;
-                }
-                set
-                {
-                    this.sourceField = value;
-                }
+        [XmlElement("mission")]
+        public int Mission {
+            get {
+                return this.missionField;
             }
+            set {
+                this.missionField = value;
+            }
+        }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlElementAttribute("d")]
-            public List<iD> d
-            {
-                get
-                {
-                    return this.dField;
-                }
-                set
-                {
-                    this.dField = value;
-                }
+        [XmlElement("maxlimit")]
+        public int MaxLimit {
+            get {
+                return this.maxlimitField;
+            }
+            set {
+                this.maxlimitField = value;
+            }
+        }
+
+        [XmlElement("source")]
+        public string Source {
+            get {
+                return this.sourceField;
+            }
+            set {
+                this.sourceField = value;
             }
         }
 
         /// <remarks/>
-        [System.SerializableAttribute()]
-        [System.ComponentModel.DesignerCategoryAttribute("code")]
-        [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-        public partial class iD
-        {
-
-            private string pField;
-
-            private string valueField;
-
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string p
-            {
-                get
-                {
-                    return this.pField;
-                }
-                set
-                {
-                    this.pField = value;
-                }
-            }
-
-            /// <remarks/>
-            [System.Xml.Serialization.XmlTextAttribute()]
-            public string Value
-            {
-                get
-                {
-                    return this.valueField;
-                }
-                set
-                {
-                    this.valueField = value;
-                }
-            }
-        }
-
-
+        [XmlElement("d")]
+        public List<Danmaku> Items { get; set; }
+        
+    }
 }

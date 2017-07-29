@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Threading;
 using System.Threading;
 using BilibiliVideoFetcher.Classes;
+using BilibiliVideoFetcher.Classes.JsonModel;
 
 namespace BilibiliVideoFetcher.Data
 {
@@ -17,6 +18,12 @@ namespace BilibiliVideoFetcher.Data
         private Border _containerControl;
         private Label _titleLabel;
         private Label _messageLabel;
+
+        /// <summary>
+        /// 后进先出的消息栈
+        /// </summary>
+        private NotifictionMessageStack _messages;
+
         public static void Initialize(Border containerControl, Label titleLabel, Label messageLabel)
         {
             if (_notifications == null)
@@ -25,7 +32,8 @@ namespace BilibiliVideoFetcher.Data
                 _notifications._containerControl = containerControl;
                 _notifications._titleLabel = titleLabel;
                 _notifications._messageLabel = messageLabel;
-                _notifications._messages = new List<NotifictionMessage>();
+                _notifications._messages = new NotifictionMessageStack();
+                //_notifications._lastMsg = null;
             }
         }
         private NotificationData() { }
@@ -35,11 +43,13 @@ namespace BilibiliVideoFetcher.Data
             return _notifications;
         }
 
-        private List<NotifictionMessage> _messages;
-
         public void Add(NotifictionMessage message)
         {
-            _messages.Add(message);
+            _messages.Push(message);
+            //if (this._lastMsg != null)
+            //{
+            //}
+            //this._lastMsg = message;
             ShowLast();
         }
 
@@ -47,29 +57,33 @@ namespace BilibiliVideoFetcher.Data
 
         public void ShowLast()
         {
-            var index = _messages.Count - 1;
-            if (index < 0)
-                Data.ApplicationSettings.GetInstance().Dispatcher.Invoke(delegate ()
-                {
-                    _containerControl.Visibility = System.Windows.Visibility.Collapsed;
-                });
-            else
+            int msgCount = _messages.RawCount;
+            if (msgCount > 0)
             {
-                var lastMsg = _messages[_messages.Count - 1];
                 Data.ApplicationSettings.GetInstance().Dispatcher.Invoke(delegate ()
-                {
-                    _containerControl.Visibility = System.Windows.Visibility.Visible;
-                    _titleLabel.Content = lastMsg.LevelToString() + (_messages.Count > 1 ? "(总共:" + _messages.Count + ")" : string.Empty);
-                    _messageLabel.Content = lastMsg.Message;
-                });
+             {
+                 _containerControl.Visibility = System.Windows.Visibility.Visible;
+                 _titleLabel.Content = _messages.LatestMessage.LevelToString() + (_messages.Count > 0 ? $"(总共:{msgCount})" : string.Empty);
+                 _messageLabel.Content = _messages.LatestMessage.Message;
+             });
 
             }
+            else
+            {
+                Data.ApplicationSettings.GetInstance().Dispatcher.Invoke(delegate ()
+               {
+                   _containerControl.Visibility = System.Windows.Visibility.Collapsed;
+               });
+
+            }
+
+
         }
 
         internal void RemoveLast()
         {
-            var lastMsg = _messages[_messages.Count - 1];
-            _messages.Remove(lastMsg);
+            _messages.Pop();
+
             ShowLast();
         }
 
@@ -97,6 +111,15 @@ namespace BilibiliVideoFetcher.Data
         public static void AddErrorNotifiction(string message)
         {
             AddNotifiction(NotificationLevel.Error, message);
+        }
+
+        /// <summary>
+        /// 添加一个NotificationLevel为Error的通知
+        /// </summary>
+        /// <param name="ex"></param>
+        public static void AddErrorNotifiction(ServerSideException ex)
+        {
+            AddErrorNotifiction(ex.ToString());
         }
     }
 }

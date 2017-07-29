@@ -1,11 +1,13 @@
-﻿using BilibiliVideoFetcher.Classes.JsonModel;
-using System;
+﻿using BilibiliVideoFetcher.Classes;
+using BilibiliVideoFetcher.Classes.JsonModel;
+using BilibiliVideoFetcher.Data;
+using BilibiliVideoFetcher.Helper;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BilibiliVideoFetcher.Classes;
 
 namespace BilibiliVideoFetcher.Process
 {
@@ -14,50 +16,62 @@ namespace BilibiliVideoFetcher.Process
         private const string DOWNLOAD_API = "http://bilibili-service.daoapp.io/video/";
         private const string VIDEO_INFO_API = "http://api.bilibili.com/view?type=json&appkey=8e9fc618fbd41e28&id=";
 
+        // http://interface.bilibili.com/playurl?cid=11292577&player=1&quality=3&sign=be5fc46637620e44a983813b7a40cedf
+        private const string NATIVE_API = "http://interface.bilibili.com/playurl?";
+
         /// <summary>
         /// 由av号和起始，结束分段号建立批量任务
         /// </summary>
         /// <param name="aid">av号</param>
         /// <param name="start">开始分段，从1开始，小于1时，将会从第一个分段开始</param>
         /// <param name="end">结束分段，大于总分段数时，将从start一直下载到最后一个分段</param>
+        /// <exception cref="ArgumentOutOfRangeException">分段数不合理时，将引发ArgumentOutOfRangeException</exception>
         public static void Build(string aid, int start = 1, int end = int.MaxValue)
         {
-            string json = Helper.NetworkHelper.GetTextFromUri(VIDEO_INFO_API + aid + "&page=" + 1);
+            string json = NetworkHelper.GetTextFromUri(VIDEO_INFO_API + aid + "&page=" + 1);
             if (json.Length > 100)
             {
-                var videoInfo = JsonConvert.DeserializeObject<jsonVideoInfo>(json);
+                var videoInfo = JsonConvert.DeserializeObject<VideoInfo>(json);
 
                 if (start > videoInfo.pages)
                 {
-                    Data.NotificationData.AddErrorNotifiction("页面范围无效!");
-                    return;
+                    throw new ArgumentOutOfRangeException("页面范围无效");
+                    //Data.NotificationData.AddErrorNotifiction("页面范围无效!");
+                    //return;
                 }
                 // 当start小于1时，取1作为起始分段
                 start = Math.Max(start, 1);
                 // 当end大于总分段数时，取总分段数作为结束分段
                 end = Math.Min(end, videoInfo.pages);
-                var aids = new string[end - start];
+                var aids = new FetcherTaskToken[end - start + 1];
                 int j = 0;
                 for (int i = start; i <= end; i++)
                 {
-                    aids[j++] = i.ToString();
+                    aids[j++] = new FetcherTaskToken(aid, i);
                 }
-                Parallel.ForEach(aids, (i) => { Build(aid, i); });
+                Parallel.ForEach(aids, (i) => { Build(i); });
             }
             else
             {
-                var errorMsg = JsonConvert.DeserializeObject<jsonVideoInfoFailedMessage>(json);
-                Data.NotificationData.AddErrorNotifiction("获取视频信息失败, 错误代号: " + errorMsg.code);
+                var errorMsg = JsonConvert.DeserializeObject<ServerSideException>(json);
+                throw errorMsg;
+                //Data.NotificationData.AddErrorNotifiction(errorMsg);
             }
         }
 
-        public static void Build(string aid, string page)
+        public static void Build(string aid, int page)
         {
-            var jsonVideoInfo = Helper.NetworkHelper.GetTextFromUri(VIDEO_INFO_API + aid + "&page=" + page);
+            Build(new FetcherTaskToken(aid, page));
+        }
+
+
+        public static void Build(FetcherTaskToken token)
+        {
+            var jsonVideoInfo = NetworkHelper.GetTextFromUri(token.ToUri());
             if (jsonVideoInfo.Length > 100)
             {
-                var videoInfo = JsonConvert.DeserializeObject<jsonVideoInfo>(jsonVideoInfo);
-                VideoTask newTask = GetVideoTask(aid, page, videoInfo);
+                var videoInfo = JsonConvert.DeserializeObject<VideoInfo>(jsonVideoInfo);
+                VideoTask newTask = GetVideoTask(token, videoInfo);
 
                 var settings = Data.ApplicationSettings.GetInstance();
 
@@ -70,12 +84,11 @@ namespace BilibiliVideoFetcher.Process
 
                 // TODO: 改用后台进程/进程池实现
                 task.Start();
-
             }
             else
             {
-                var errorMsg = JsonConvert.DeserializeObject<jsonVideoInfoFailedMessage>(jsonVideoInfo);
-                Data.NotificationData.AddErrorNotifiction("获取视频信息失败, 错误代号: " + errorMsg.code);
+                var errorMsg = JsonConvert.DeserializeObject<ServerSideException>(jsonVideoInfo);
+                Data.NotificationData.AddErrorNotifiction(errorMsg);
             }
         }
 
@@ -85,14 +98,27 @@ namespace BilibiliVideoFetcher.Process
         /// <param name="newTask"></param>
         private static void GetDownloadUrl(VideoTask newTask)
         {
-            var settings = Data.ApplicationSettings.GetInstance();
             var cid = newTask.VideoInfo.cid;
-            var downJson = Helper.NetworkHelper.GetTextFromUri(
+
+            if (AdvanceSettings.UseNativeApi)
+            {
+                BilibiliVideoInfo info = GetVideoInfoFromNativeApi(cid);
+                if (info.Code < 0)
+                {
+                    throw new ServerSideException(info.Code, info.Result);
+                }
+                AppendFileSystemInfo(newTask, info);
+                return;
+            }
+
+            var settings = ApplicationSettings.GetInstance();
+            var downJson = NetworkHelper.GetTextFromUri(
                 DOWNLOAD_API + cid + "?quality=1&type=" + settings.FetchingOption.Format);
             if (downJson.Length < 100)
             {
-                Data.NotificationData.AddErrorNotifiction(
+                NotificationData.AddErrorNotifiction(
                     "无法获取cid:" + cid + "的下载地址, 可能是非bilibili源的缘故");
+                newTask.State = FetchState.Error;
                 return;
             }
             var jvd = JsonConvert.DeserializeObject<jsonVideoDownload>(downJson);
@@ -100,21 +126,22 @@ namespace BilibiliVideoFetcher.Process
             if (settings.FetchingOption.Quality == "high")
             {
                 var quality = jvd.accept_quality.OrderByDescending(t => t).First();
-                downJson = Helper.NetworkHelper.GetTextFromUri(
+                downJson = NetworkHelper.GetTextFromUri(
                     DOWNLOAD_API + newTask.VideoInfo.cid + "?quality=" + quality);
                 jvd = JsonConvert.DeserializeObject<jsonVideoDownload>(downJson);
             }
 
             if (jvd.durl.Count == 0)
             {
-                Data.NotificationData.AddErrorNotifiction(
+                NotificationData.AddErrorNotifiction(
                     "无法获取cid:" + cid + "的下载地址, durl.count = 0");
+                newTask.State = FetchState.Error;
                 return;
             }
 
             AppendFileSystemInfo(newTask, jvd);
 
-            Data.NotificationData.AddNotifiction(
+            NotificationData.AddNotifiction(
                    NotificationLevel.Info,
                    "成功获取cid:" + cid + "的下载地址, 请复制下载地址到其它软件下载");
         }
@@ -122,34 +149,58 @@ namespace BilibiliVideoFetcher.Process
         private static void AppendFileSystemInfo(VideoTask newTask, jsonVideoDownload jvd)
         {
             var durl = jvd.durl[0];
-            newTask.Size = Helper.FileHelper.GetFileSizeString(durl.size);
+            newTask.RawSize = durl.size;
             newTask.DownloadUrl.Add(durl.url);
             newTask.DownloadUrl.AddRange(durl.backup_url);
-            newTask.Name = newTask.Name.Substring(9);
+            newTask.State = FetchState.Done;
+            //newTask.Name = newTask.Name.Substring(9);
         }
 
-        private static VideoTask GetVideoTask(string aid, string page, jsonVideoInfo videoInfo)
+        private static void AppendFileSystemInfo(VideoTask newTask, BilibiliVideoInfo info)
         {
-            var newTask = new VideoTask();
-            newTask.VideoInfo = videoInfo;
-            if (string.IsNullOrEmpty(videoInfo.partname))
+            int rawSize = 0;
+            StringBuilder builder = new StringBuilder();
+            foreach (var item in info.Durls)
             {
-                newTask.Name = $"(获取下载地址中){videoInfo.title}";
-                newTask.Partname = "无";
+                rawSize += item.Size;
+                builder.AppendLine(item.Url);
             }
-            else
-            {
-                newTask.Name = $"(获取下载地址中){videoInfo.title} {videoInfo.partname}";
-                newTask.Partname = videoInfo.partname;
-            }
+            var durl = info.Durls[0];
+            newTask.RawSize = rawSize;
+            newTask.DownloadUrl.Add(builder.ToString().TrimEnd('\r', '\n'));
+            //newTask.DownloadUrl.AddRange(durl.BackupUrl);
+            newTask.State = FetchState.Done;
+            //newTask.Name = newTask.Name.Substring(9);
+        }
 
-            newTask.Aid = aid;
-            newTask.Size = "获取中";
-            newTask.CreateTime = DateTime.Now.ToString();
-            newTask.DownloadUrl = new List<string>();
-            newTask.Page = page;
-            newTask.Danmu = "http://comment.bilibili.com/" + videoInfo.cid + ".xml";
+        private static VideoTask GetVideoTask(string aid, int page, VideoInfo videoInfo)
+        {
+            return GetVideoTask(new FetcherTaskToken(aid, page), videoInfo);
+        }
+
+        private static VideoTask GetVideoTask(FetcherTaskToken token, VideoInfo videoInfo)
+        {
+            var newTask = new VideoTask(token)
+            {
+                VideoInfo = videoInfo,
+                State = FetchState.Waiting,
+
+                Name = videoInfo.title,
+                Partname = videoInfo.partname,
+
+                DownloadUrl = new List<string>(),
+                Danmu = "http://comment.bilibili.com/" + videoInfo.cid + ".xml"
+            };
             return newTask;
+        }
+
+        public static BilibiliVideoInfo GetVideoInfoFromNativeApi(int cid)
+        {
+            VideoParams vp = new VideoParams(cid);
+
+            var xml = NetworkHelper.GetTextFromUri(NATIVE_API + vp.ToQueryString());
+            Console.WriteLine(xml);
+            return BilibiliVideoInfo.ParseXml(xml);
         }
     }
 

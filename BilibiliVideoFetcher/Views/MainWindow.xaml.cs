@@ -1,18 +1,11 @@
 ﻿using BilibiliVideoFetcher.Classes;
+using BilibiliVideoFetcher.Data;
+using BilibiliVideoFetcher.Process;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BilibiliVideoFetcher
 {
@@ -27,62 +20,55 @@ namespace BilibiliVideoFetcher
 
         }
 
-        private void menuItemCreateSingleTask_Click(object sender, RoutedEventArgs e)
-        {
-            Data.Log.GetLogger().Info("MainWindow->menuItemCreateSingleTask_Click", "Clicked menuItemCreateSingleTask.");
-            new Views.CreateSingleTaskWindow() { Owner = this }.Show();
-
-        }
-
         private void WindowMain_Loaded(object sender, RoutedEventArgs e)
         {
-            Data.Log.GetLogger().Info("MainWindow->WindowMain_Loaded", "Main Window has been loaded.");
-            Data.ApplicationSettings.GetInstance().Dispatcher = this.Dispatcher;
-            Data.NotificationData.Initialize(this.borderMessage, this.labelMsgTitle, this.labelMsgContent);
+            Log.GetLogger().Info("MainWindow->WindowMain_Loaded", "Main Window has been loaded.");
+            ApplicationSettings.GetInstance().Dispatcher = this.Dispatcher;
+            NotificationData.Initialize(this.borderMessage, this.labelMsgTitle, this.labelMsgContent);
             dataGrid.ItemsSource = Data.FetchingTasks.GetInstance().Tasks;
 
         }
 
-        private void buttonCloseMessage_Click(object sender, RoutedEventArgs e)
+        private void ButtonCloseMessage_Click(object sender, RoutedEventArgs e)
         {
-            Data.Log.GetLogger().Info("MainWindow->buttonCloseMessage_Click", "Clicked buttonCloseMessage.");
-            Data.NotificationData.GetInstance().RemoveLast();
+            Log.GetLogger().Info("MainWindow->buttonCloseMessage_Click", "Clicked buttonCloseMessage.");
+            NotificationData.GetInstance().RemoveLast();
 
         }
 
-        private void menuItemSettings_Click(object sender, RoutedEventArgs e)
+        private void MenuItemSettings_Click(object sender, RoutedEventArgs e)
         {
-            Data.Log.GetLogger().Info("MainWindow->menuItemSettings_Click", "Clicked menuItemSettings.");
+            Log.GetLogger().Info("MainWindow->menuItemSettings_Click", "Clicked menuItemSettings.");
             new Views.SettingsWindow().ShowDialog();
 
         }
 
-        private void menuItemDelete_Click(object sender, RoutedEventArgs e)
+        private void MenuItemDelete_Click(object sender, RoutedEventArgs e)
         {
-            Data.Log.GetLogger().Info("MainWindow->menuItemDelete_Click", "Clicked menuItemDelete.");
+            Log.GetLogger().Info("MainWindow->menuItemDelete_Click", "Clicked menuItemDelete.");
             while (dataGrid.SelectedItems.Count > 0)
             {
-                Data.FetchingTasks.
+                FetchingTasks.
                     GetInstance().Tasks.Remove(GetSelectedTask(dataGrid));
             }
 
         }
 
-        private void menuItemViewDetail_Click(object sender, RoutedEventArgs e)
+        private void MenuItemViewDetail_Click(object sender, RoutedEventArgs e)
         {
-            Data.Log.GetLogger().Info("MainWindow->menuItemViewDetail_Click", "Clicked menuItemViewDetail.");
+            Log.GetLogger().Info("MainWindow->menuItemViewDetail_Click", "Clicked menuItemViewDetail.");
             if (dataGrid.SelectedItems.Count == 0) return;
             Views.VideoInfoWindow.Start(GetSelectedTask(dataGrid));
         }
 
-        private void menuItemCopyDownloadUrl_Click(object sender, RoutedEventArgs e)
+        private void MenuItemCopyDownloadUrl_Click(object sender, RoutedEventArgs e)
         {
-            Data.Log.GetLogger().Info("MainWindow->menuItemCopyDownloadUrl_Click", "Clicked menuItemCopyDownloadUrl");
+            Log.GetLogger().Info("MainWindow->menuItemCopyDownloadUrl_Click", "Clicked menuItemCopyDownloadUrl");
             if (dataGrid.SelectedItems.Count == 0) return;
             var task = GetSelectedTask(dataGrid);
             if (task.DownloadUrl == null || task.DownloadUrl.Count == 0)
             {
-                Data.NotificationData.GetInstance().Add(
+                NotificationData.GetInstance().Add(
                     new NotifictionMessage(NotificationLevel.Warning, "下载地址尚未获取到, 请等待或删除本任务."));
             }
             else
@@ -93,57 +79,51 @@ namespace BilibiliVideoFetcher
         }
         private VideoTask GetSelectedTask(DataGrid dg)
         {
-            Data.Log.GetLogger().Info("MainWindow->GetSelectedTask", "Called GetSelectedTask.");
+            Log.GetLogger().Info("MainWindow->GetSelectedTask", "Called GetSelectedTask.");
             return (VideoTask)dg.SelectedItem;
             //var index = dg.SelectedIndex;
             //DataGridRow row = dg.ItemContainerGenerator.ContainerFromIndex(index) as DataGridRow;
             //return dg.ItemContainerGenerator.ItemFromContainer(row) as VideoTask;
         }
-        private void menuItemViewInBilibili_Click(object sender, RoutedEventArgs e)
+        private void MenuItemViewInBilibili_Click(object sender, RoutedEventArgs e)
         {
             if (dataGrid.SelectedItems.Count == 0) return;
             var task = GetSelectedTask(dataGrid);
             System.Diagnostics.Process.Start("http://www.bilibili.com/video/av" + task.Aid + "/index_" + task.Page + ".html");
         }
 
-        private void menuItemAbout_Click(object sender, RoutedEventArgs e)
+        private void MenuItemAbout_Click(object sender, RoutedEventArgs e)
         {
-            Data.Log.GetLogger().Info("MainWindow->menuItemAbout_Click", "Clicked menuItemAbout");
+            Log.GetLogger().Info("MainWindow->menuItemAbout_Click", "Clicked menuItemAbout");
             new Views.AboutWindow().ShowDialog();
         }
 
-        private void menuItemCreateMultiTask_Click(object sender, RoutedEventArgs e)
+        private void Cmd_Exit(object sender, ExecutedRoutedEventArgs e)
         {
-            Data.Log.GetLogger().Info("MainWindow->menuItemCreateMultiTask_Click", "Clicked menuItemCreateMultiTask");
-            new Views.CreatMultiTaskWindow() { Owner = this }.Show();
-        }
-
-        private void cmd_Exit(object sender, ExecutedRoutedEventArgs e)
-        {
-            Data.Log.GetLogger().Info("MainWindow->cmd_Exit", "Executed Application.Current.Shutdown()");
+            Log.GetLogger().Info("MainWindow->cmd_Exit", "Executed Application.Current.Shutdown()");
             Application.Current.Shutdown();
 
         }
-        private void cmd_CopyDownloadUrl(object sender, ExecutedRoutedEventArgs e)
+        private void Cmd_CopyDownloadUrl(object sender, ExecutedRoutedEventArgs e)
         {
-            Data.Log.GetLogger().Info("MainWindow->cmd_CopyDownloadUrl", "Executed CopyDownloadUrl");
+            Log.GetLogger().Info("MainWindow->cmd_CopyDownloadUrl", "Executed CopyDownloadUrl");
             if (dataGrid.SelectedItems.Count == 0)
             {
-                Data.NotificationData.GetInstance().Add(
-                    new Classes.NotifictionMessage(NotificationLevel.Warning, "尚未选择所要获取下载地址的项"));
+                NotificationData.GetInstance().Add(
+                    new NotifictionMessage(NotificationLevel.Warning, "尚未选择所要获取下载地址的项"));
                 return;
             }
             var task = GetSelectedTask(dataGrid);
             if (task.DownloadUrl == null || task.DownloadUrl[0] == string.Empty)
             {
-                Data.NotificationData.GetInstance().Add(
-                    new Classes.NotifictionMessage(NotificationLevel.Warning, "尚未获取到所要复制的下载地址"));
+                NotificationData.GetInstance().Add(
+                    new NotifictionMessage(NotificationLevel.Warning, "尚未获取到所要复制的下载地址"));
             }
             else
             {
                 Clipboard.SetText(task.DownloadUrl[0]);
-                Data.NotificationData.GetInstance().Add(
-                    new Classes.NotifictionMessage(NotificationLevel.Info, "已复制下载地址到剪切板"));
+                NotificationData.GetInstance().Add(
+                    new NotifictionMessage(NotificationLevel.Info, "已复制下载地址到剪切板"));
             }
 
 
@@ -151,20 +131,20 @@ namespace BilibiliVideoFetcher
 
         private void WindowMain_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            Data.Log.GetLogger().Info("MainWindow->WindowMain_Closing", "Closing MainWindow.");
+            Log.GetLogger().Info("MainWindow->WindowMain_Closing", "Closing MainWindow.");
         }
 
-        private void menuItemDownloadDamnu_Click(object sender, RoutedEventArgs e)
+        private void MenuItemDownloadDamnu_Click(object sender, RoutedEventArgs e)
         {
-            Data.Log.GetLogger().Info("MainWindow->menuItemDownloadDamnu_Click", "Clicked menuItemDownloadDamnu");
+            Log.GetLogger().Info("MainWindow->menuItemDownloadDamnu_Click", "Clicked menuItemDownloadDamnu");
             if (dataGrid.SelectedItems.Count == 0) return;
             var task = GetSelectedTask(dataGrid);
-            Process.DanmuOpt.SaveToFile(task);
+            DanmuOpt.SaveToFile(task);
         }
 
-        private void menuItemFiltAndDownload_Click(object sender, RoutedEventArgs e)
+        private void MenuItemFiltAndDownload_Click(object sender, RoutedEventArgs e)
         {
-            Data.Log.GetLogger().Info("MainWindow->menuItemFiltAndDownload_Checked", "Clicked menuItemFiltAndDownload");
+            Log.GetLogger().Info("MainWindow->menuItemFiltAndDownload_Checked", "Clicked menuItemFiltAndDownload");
             if (dataGrid.SelectedItems.Count == 0) return;
             var task = GetSelectedTask(dataGrid);
             var act = new Action<int, string>(delegate (int i, string s)
@@ -172,34 +152,33 @@ namespace BilibiliVideoFetcher
                 if (i == 0) return;
                 Dispatcher.Invoke(() =>
                 {
-                    Process.DanmuOpt.DownAndRegxFilt(task, new System.Text.RegularExpressions.Regex(s));
+                    DanmuOpt.DownAndRegxFilt(task, new System.Text.RegularExpressions.Regex(s));
                 });
             });
             Views.InputWindow.Start("提示", "请输入正则表达式", act);
         }
 
-        private void menuItemCopyDanmuDownloadUrl_Click(object sender, RoutedEventArgs e)
+        private void MenuItemCopyDanmuDownloadUrl_Click(object sender, RoutedEventArgs e)
         {
-            Data.Log.GetLogger().Info("MainWindow->menuItemCopyDanmuDownloadUrl_Click", "Executed menuItemCopyDanmuDownloadUrl");
+            Log.GetLogger().Info("MainWindow->menuItemCopyDanmuDownloadUrl_Click", "Executed menuItemCopyDanmuDownloadUrl");
             if (dataGrid.SelectedItems.Count == 0)
             {
-                Data.NotificationData.GetInstance().Add(
-                    new Classes.NotifictionMessage(NotificationLevel.Warning, "尚未选择所要获取下载地址的项"));
+                NotificationData.GetInstance().Add(
+                    new NotifictionMessage(NotificationLevel.Warning, "尚未选择所要获取下载地址的项"));
                 return;
             }
             var task = GetSelectedTask(dataGrid);
             if (task.Danmu == string.Empty)
             {
-                Data.NotificationData.GetInstance().Add(
-                    new Classes.NotifictionMessage(NotificationLevel.Warning, "尚未获取到所要复制的下载地址"));
+                NotificationData.GetInstance().Add(
+                    new NotifictionMessage(NotificationLevel.Warning, "尚未获取到所要复制的下载地址"));
             }
             else
             {
                 Clipboard.SetText(task.Danmu);
-                Data.NotificationData.GetInstance().Add(
-                    new Classes.NotifictionMessage(NotificationLevel.Info, "已复制下载地址到剪切板"));
+                NotificationData.GetInstance().Add(
+                    new NotifictionMessage(NotificationLevel.Info, "已复制下载地址到剪切板"));
             }
-
         }
 
         private void menuItemRefetchDownloadUrl_Click(object sender, RoutedEventArgs e)
@@ -219,5 +198,63 @@ namespace BilibiliVideoFetcher
                 Process.FetchingCore.ReFetchTask(task);
             }).Start();
         }
+
+        #region "添加解析任务"
+
+        private void WaitForClose(Window dialog)
+        {
+            do
+            {
+                try
+                {
+                    dialog.ShowDialog();
+                }
+                catch (ArgumentException ex)
+                {
+                    NotificationData.AddErrorNotifiction(ex.Message);
+                }
+                catch (NotSupportedException ex)
+                {
+                    NotificationData.AddErrorNotifiction(ex.Message);
+                }
+            } while (dialog.Visibility == Visibility.Visible);
+
+        }
+
+        private void AddNewTaskCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Log.GetLogger().Info("MainWindow->AddNewTaskCommand_Executed", $"{sender}, AddNewTaskCommand_Executed.");
+            var dialog = new Views.CreateSingleTaskWindow() { Owner = this };
+            dialog.NewTaskRequested += Dialog_NewTaskRequested;
+            dialog.ErrorCaptured += Dialog_ErrorCaptured;
+
+            dialog.ShowDialog();
+        }
+
+        private void AddNewMultiTaskCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Log.GetLogger().Info("MainWindow->AddNewMultiTaskCommand_Executed", $"{sender}, AddNewMultiTaskCommand_Executed");
+            var dialog = new Views.CreatMultiTaskWindow() { Owner = this };
+            dialog.NewMultiTaskRequested += Dialog_NewMultiTaskRequested;
+            dialog.ErrorCaptured += Dialog_ErrorCaptured;
+
+            dialog.ShowDialog();
+        }
+
+        private void Dialog_ErrorCaptured(object sender, string e)
+        {
+            NotificationData.AddErrorNotifiction(e);
+        }
+
+        private void Dialog_NewTaskRequested(object sender, Process.NewTaskRequestEventArgs e)
+        {
+            FetchingCore.CreateTask(e.Token);
+        }
+
+        private void Dialog_NewMultiTaskRequested(object sender, NewMultiTaskRequestEventArgs e)
+        {
+            FetchingCore.NewMultiTask(e.Aid, e.Start, e.End);
+        }
+        #endregion
     }
 }

@@ -20,19 +20,19 @@ namespace BilibiliVideoFetcher.Process.Tests
             Assert.Fail();
         }
 
-        [TestMethod()]
+        //[TestMethod()]
         public void NewTaskTest()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        //[TestMethod()]
         public void NewMultiTaskTest()
         {
             Assert.Fail();
         }
 
-        [TestMethod()]
+        //[TestMethod()]
         public void NewMultiTaskTest1()
         {
             Assert.Fail();

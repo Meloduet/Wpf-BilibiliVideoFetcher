@@ -4,12 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:BilibiliVideoFetcher"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:v="clr-namespace:BilibiliVideoFetcher.Views"
         x:Name="WindowMain"
         Title="MeloduetWorks - Bilibili视频下载解析工具"
         Width="699"
         Height="415"
         Closing="WindowMain_Closing"
-        Icon="pack://application:,,,/BilibiliVideoFetcher;component/Resources/tv_80x80.png"
+        Icon="{DynamicResource AppIcon}"
         Loaded="WindowMain_Loaded"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
@@ -27,10 +28,10 @@
         <KeyBinding Command="{StaticResource CopyDownloadUrl}" Gesture="Ctrl+Shift+C" />
     </Window.InputBindings>
     <Window.CommandBindings>
-        <CommandBinding Command="{StaticResource NewTask}" Executed="menuItemCreateSingleTask_Click" />
-        <CommandBinding Command="{StaticResource NewMultiTask}" Executed="menuItemCreateMultiTask_Click" />
-        <CommandBinding Command="{StaticResource Exit}" Executed="cmd_Exit" />
-        <CommandBinding Command="{StaticResource CopyDownloadUrl}" Executed="cmd_CopyDownloadUrl" />
+        <CommandBinding Command="{StaticResource NewTask}" Executed="AddNewTaskCommand_Executed" />
+        <CommandBinding Command="{StaticResource NewMultiTask}" Executed="AddNewMultiTaskCommand_Executed" />
+        <CommandBinding Command="{StaticResource Exit}" Executed="Cmd_Exit" />
+        <CommandBinding Command="{StaticResource CopyDownloadUrl}" Executed="Cmd_CopyDownloadUrl" />
     </Window.CommandBindings>
 
     <DockPanel LastChildFill="True">
@@ -40,26 +41,24 @@
               DockPanel.Dock="Top">
             <MenuItem Name="menuItemAbout"
                       Width="49"
-                      Click="menuItemAbout_Click"
+                      Click="MenuItemAbout_Click"
                       Header="">
                 <MenuItem.Background>
-                    <ImageBrush ImageSource="pack://application:,,,/BilibiliVideoFetcher;component/Resources/tv_80x80.png" />
+                    <ImageBrush ImageSource="{DynamicResource AppIcon}" />
                 </MenuItem.Background>
             </MenuItem>
             <MenuItem Header="创建">
                 <MenuItem Name="menuItemCreateSingleTask"
                           Width="116"
-                          HorizontalAlignment="Left"
-                          Click="menuItemCreateSingleTask_Click"
+                          Command="{StaticResource NewTask}"
                           Header="单个任务" />
                 <MenuItem Name="menuItemCreateMultiTask"
                           Width="116"
-                          HorizontalAlignment="Left"
-                          Click="menuItemCreateMultiTask_Click"
+                          Command="{StaticResource NewMultiTask}"
                           Header="批量任务" />
             </MenuItem>
             <MenuItem x:Name="menuItemSettings"
-                      Click="menuItemSettings_Click"
+                      Click="MenuItemSettings_Click"
                       Header="设置" />
 
         </Menu>
@@ -82,7 +81,7 @@
                         HorizontalAlignment="Right"
                         Background="{x:Null}"
                         BorderBrush="{x:Null}"
-                        Click="buttonCloseMessage_Click"
+                        Click="ButtonCloseMessage_Click"
                         Content="X"
                         FontSize="10"
                         Foreground="#DD000000"
@@ -90,39 +89,43 @@
             </DockPanel>
         </Border>
 
+        <v:NotificationBar DockPanel.Dock="Top"
+                           Padding="10,3"
+                           ShowIcon="True" />
+
         <DataGrid x:Name="dataGrid"
                   AutoGenerateColumns="False"
                   IsReadOnly="True">
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem x:Name="menuItemViewDetail"
-                              Click="menuItemViewDetail_Click"
+                              Click="MenuItemViewDetail_Click"
                               Header="查看详情" />
                     <MenuItem x:Name="menuItemRefetchDownloadUrl"
                               Click="menuItemRefetchDownloadUrl_Click"
                               Header="刷新下载地址" />
                     <MenuItem x:Name="menuItemCopyDownloadUrl"
-                              Click="menuItemCopyDownloadUrl_Click"
+                              Click="MenuItemCopyDownloadUrl_Click"
                               Header="复制下载地址" />
                     <MenuItem x:Name="menuItemViewInBilibili"
-                              Click="menuItemViewInBilibili_Click"
+                              Click="MenuItemViewInBilibili_Click"
                               Header="在Bilibili中查看" />
 
                     <MenuItem Header="弹幕">
                         <MenuItem x:Name="menuItemCopyDanmuDownloadUrl"
-                                  Click="menuItemCopyDanmuDownloadUrl_Click"
+                                  Click="MenuItemCopyDanmuDownloadUrl_Click"
                                   Header="复制弹幕下载地址" />
                         <MenuItem x:Name="menuItemDownloadDamnu"
-                                  Click="menuItemDownloadDamnu_Click"
+                                  Click="MenuItemDownloadDamnu_Click"
                                   Header="下载到本地" />
                         <MenuItem x:Name="menuItemFiltAndDownload"
-                                  Click="menuItemFiltAndDownload_Click"
+                                  Click="MenuItemFiltAndDownload_Click"
                                   Header="用正则表达式过滤并下载(需要管理员权限)" />
                         <MenuItem x:Name="menuItemCovertToAssAndDownload" Header="转换为Ass格式并下载" />
                     </MenuItem>
                     <Separator />
                     <MenuItem x:Name="menuItemDelete"
-                              Click="menuItemDelete_Click"
+                              Click="MenuItemDelete_Click"
                               Header="删除" />
                 </ContextMenu>
             </DataGrid.ContextMenu>

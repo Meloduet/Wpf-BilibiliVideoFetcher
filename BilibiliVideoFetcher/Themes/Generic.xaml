@@ -1,0 +1,133 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:BilibiliVideoFetcher.Views">
+
+    <BitmapImage x:Key="AppIcon" UriSource="pack://application:,,,/BilibiliVideoFetcher;component/Resources/tv_80x80.png" />
+
+    <PathGeometry x:Key="CloseIconGeometry" Figures="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z" />
+
+    <PathGeometry x:Key="InfoIconGeometry" Figures="M24 4C12.95 4 4 12.95 4 24s8.95 20 20 20 20-8.95 20-20S35.05 4 24 4zm2 30h-4V22h4v12zm0-16h-4v-4h4v4z" />
+
+    <PathGeometry x:Key="BugIconGeometry" Figures="M 40 16 h -5.62 c -0.9 -1.56 -2.14 -2.91 -3.63 -3.92 L 34 8.83 L 31.17 6 l -4.35 4.35 c -0.9 -0.22 -1.85 -0.35 -2.82 -0.35 c -0.97 0 -1.92 0.13 -2.82 0.35 L 16.83 6 L 14 8.83 l 3.25 3.25 c -1.49 1.01 -2.73 2.36 -3.63 3.92 H 8 v 4 h 4.18 c -0.11 0.65 -0.18 1.32 -0.18 2 v 2 H 8 v 4 h 4 v 2 c 0 0.68 0.07 1.35 0.18 2 H 8 v 4 h 5.62 c 2.07 3.58 5.94 6 10.38 6 s 8.31 -2.42 10.38 -6 H 40 v -4 h -4.18 c 0.11 -0.65 0.18 -1.32 0.18 -2 v -2 h 4 v -4 h -4 v -2 c 0 -0.68 -0.07 -1.35 -0.18 -2 H 40 v -4 Z M 28 32 h -8 v -4 h 8 v 4 Z m 0 -8 h -8 v -4 h 8 v 4 Z" />
+
+    <PathGeometry x:Key="WarningIconGeometry" Figures="M2 42h44L24 4 2 42zm24-6h-4v-4h4v4zm0-8h-4v-8h4v8z" />
+
+    <PathGeometry x:Key="ErrorIconGeometry" Figures="M24 4C12.96 4 4 12.95 4 24s8.96 20 20 20 20-8.95 20-20S35.04 4 24 4zm2 30h-4v-4h4v4zm0-8h-4V14h4v12z" />
+
+    <PathGeometry x:Key="PauseIconGeometry" Figures="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z" />
+
+    <GeometryGroup x:Key="StopIconGeometry" FillRule="EvenOdd">
+        <RectangleGeometry Rect="0,0,24,24" />
+        <RectangleGeometry Rect="0,0,24,24" />
+        <RectangleGeometry Rect="6,6,12,12" />
+    </GeometryGroup>
+
+    <GeometryDrawing x:Key="CloseIconDrawing"
+                     Brush="{DynamicResource PrimaryHueDarkBrush}"
+                     Geometry="{StaticResource CloseIconGeometry}" />
+
+    <GeometryDrawing x:Key="InfoIconDrawing"
+                     Brush="{DynamicResource PrimaryHueLightBrush}"
+                     Geometry="{StaticResource InfoIconGeometry}" />
+
+    <GeometryDrawing x:Key="BugIconDrawing"
+                     Brush="{DynamicResource PrimaryHueLightBrush}"
+                     Geometry="{StaticResource BugIconGeometry}" />
+
+    <GeometryDrawing x:Key="WarningIconDrawing"
+                     Brush="{DynamicResource PrimaryHueLightBrush}"
+                     Geometry="{StaticResource WarningIconGeometry}" />
+
+    <GeometryDrawing x:Key="ErrorIconDrawing"
+                     Brush="{DynamicResource PrimaryHueLightBrush}"
+                     Geometry="{StaticResource BugIconGeometry}" />
+
+    <GeometryDrawing x:Key="StopIconDrawing"
+                     Brush="{DynamicResource PrimaryHueLightBrush}"
+                     Geometry="{StaticResource StopIconGeometry}" />
+
+    <DrawingImage x:Key="CloseIconImage" Drawing="{DynamicResource CloseIconDrawing}" />
+
+    <DrawingImage x:Key="InfoIconImage" Drawing="{DynamicResource InfoIconDrawing}" />
+
+    <DrawingImage x:Key="BugIconImage" Drawing="{DynamicResource BugIconDrawing}" />
+
+    <DrawingImage x:Key="WarningIconImage" Drawing="{DynamicResource WarningIconDrawing}" />
+
+    <DrawingImage x:Key="ErrorIconImage" Drawing="{DynamicResource ErrorIconDrawing}" />
+
+    <DrawingImage x:Key="StopIconImage" Drawing="{DynamicResource StopIconDrawing}" />
+
+    <DrawingBrush x:Key="CloseIconBrush" Drawing="{DynamicResource CloseIconDrawing}" />
+
+    <SolidColorBrush x:Key="ButtonBackgroudBlue" Color="#FF61A4DC" />
+
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+    <local:NotificationLevelToImageConverter x:Key="IconConverter"
+                                             DebugImage="{StaticResource BugIconImage}"
+                                             ErrorImage="{StaticResource ErrorIconImage}"
+                                             InfoImage="{StaticResource InfoIconImage}"
+                                             WarningImage="{StaticResource WarningIconImage}" />
+
+    <ControlTemplate x:Key="NotificationBarDefault" TargetType="{x:Type local:NotificationBar}">
+        <Border Margin="{TemplateBinding Margin}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                Padding="{TemplateBinding Padding}">
+            <Grid x:Name="root">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="16" />
+                </Grid.ColumnDefinitions>
+                <Image x:Name="PART_Image"
+                       Width="16"
+                       Height="16"
+                       Source="{Binding Level,
+                                        Converter={StaticResource IconConverter},
+                                        RelativeSource={RelativeSource TemplatedParent}}"
+                       Stretch="Fill"
+                       ToolTip="{TemplateBinding MessageType}" />
+                <TextBlock x:Name="PART_msgLevel"
+                           Grid.Column="0"
+                           Text="{TemplateBinding MessageType}" />
+                <TextBlock x:Name="PART_msgContent"
+                           Grid.Column="1"
+                           Margin="8,0,0,0" />
+
+                <Button Name="PART_Button"
+                        Grid.Column="2"
+                        Width="16"
+                        Height="16"
+                        Background="{DynamicResource CloseIconBrush}"
+                        BorderThickness="0" />
+            </Grid>
+
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="ShowIcon" Value="True">
+                <Setter TargetName="PART_Image" Property="Visibility" Value="Visible" />
+                <Setter TargetName="PART_msgLevel" Property="Visibility" Value="Collapsed" />
+            </Trigger>
+            <Trigger Property="ShowIcon" Value="False">
+                <Setter TargetName="PART_Image" Property="Visibility" Value="Collapsed" />
+                <Setter TargetName="PART_msgLevel" Property="Visibility" Value="Visible" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style BasedOn="{StaticResource {x:Type Window}}" TargetType="{x:Type local:TaskDialog}">
+        <Setter Property="ResizeMode" Value="NoResize" />
+        <Setter Property="SizeToContent" Value="WidthAndHeight" />
+        <Setter Property="Icon" Value="{DynamicResource AppIcon}" />
+    </Style>
+
+    <Style TargetType="{x:Type local:NotificationBar}">
+        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueLightBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="10,0" />
+        <Setter Property="Template" Value="{DynamicResource NotificationBarDefault}" />
+    </Style>
+
+</ResourceDictionary>
